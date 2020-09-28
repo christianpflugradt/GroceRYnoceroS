@@ -52,6 +52,6 @@ require_relative 'subroutines/main'
 print_banner
 db = Database.new
 db.connect
-Main.enter db
+Main.enter nil, db
 db.disconnect
 print_bye_bye
