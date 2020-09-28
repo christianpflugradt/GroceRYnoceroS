@@ -1,25 +1,21 @@
+require_relative '../common/menu'
+require_relative 'manage_groceries'
+
 module Main
-  extend self
+  extend self, Menu
 
-  @subroutines = {
-      1 => :enter_create_list_sub,
-      2 => :enter_manage_items_sub,
-      3 => :enter_manage_categories_sub,
-      4 => :enter_manage_shops_sub,
-      5 => :enter_import_shopping_data
-  }
+  @main = true
+  @subroutines = [
+      :enter_create_list_sub,
+      :enter_manage_items_sub,
+      :enter_manage_categories_sub,
+      :enter_manage_shops_sub,
+      :enter_import_shopping_data
+  ]
 
-  def enter(db)
-    inp = nil
-    until inp == @subroutines.length + 1
-      subroutine = @subroutines[inp]
-      subroutine ? (send subroutine, db) : (print_menu)
-      inp = input_num
-    end
-  end
+  @menu = <<MENU
 
-  def print_menu
-    puts <<MENU
+  [Main]
 
   (1) create a shopping list
   (2) manage shopping items
@@ -28,17 +24,14 @@ module Main
   (5) import shopping data
   (6) quit GroceRYinoceroS
 
-  Enter a number 1-6 and hit 'Enter' to choose a menu point
-
 MENU
-  end
 
   def enter_create_list_sub(db)
     puts "not yet implemented :("
   end
 
   def enter_manage_items_sub(db)
-    puts "not yet implemented :("
+    ManageGroceries.enter self, db
   end
 
   def enter_manage_categories_sub(db)
