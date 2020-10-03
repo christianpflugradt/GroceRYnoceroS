@@ -1,4 +1,5 @@
 require_relative 'create_groceries'
+require_relative 'review_groceries'
 
 module ManageGroceries
   extend self, Menu
@@ -29,7 +30,7 @@ MENU
   end
 
   def enter_view_groceries_sub(db)
-    puts "not yet implemented :("
+    ReviewGroceries.enter self, db
   end
 
 end
