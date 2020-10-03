@@ -1,27 +1,27 @@
 require_relative '../common/menu'
-require_relative 'manage_groceries'
+require_relative 'groceries/manage_groceries'
 
 module Main
   extend self, Menu
 
   @main = true
-  @subroutines = [
-      :enter_create_list_sub,
-      :enter_manage_items_sub,
-      :enter_manage_categories_sub,
-      :enter_manage_shops_sub,
-      :enter_import_shopping_data
+  @subroutines = %i[
+    enter_create_list_sub
+    enter_manage_items_sub
+    enter_manage_categories_sub
+    enter_manage_shops_sub
+    enter_import_shopping_data
   ]
 
   @menu = <<MENU
 
   [Main]
 
-  (1) create a shopping list
-  (2) manage shopping items
-  (3) manage item categories
+  (1) create shopping list
+  (2) manage groceries
+  (3) manage categories
   (4) manage shops
-  (5) import shopping data
+  (5) import data
   (6) quit GroceRYinoceroS
 
 MENU

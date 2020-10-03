@@ -8,7 +8,7 @@ module Menu
       (inp and (0..@subroutines.length) === inp) ? (send @subroutines[inp - 1], db) : (print_menu)
       inp = input_num
     end
-    if caller then caller.print_menu end
+    caller&.print_menu
   end
 
   def print_menu

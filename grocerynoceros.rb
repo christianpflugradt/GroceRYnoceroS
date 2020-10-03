@@ -45,7 +45,7 @@ def print_bye_bye
 BYEBYE
 end
 
-require_relative 'common/database'
+require_relative 'common/database/database'
 require_relative 'common/inout'
 require_relative 'schema/schema_updater'
 require_relative 'subroutines/main'
