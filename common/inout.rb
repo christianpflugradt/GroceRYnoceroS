@@ -1,8 +1,8 @@
-def input
-  print ' > '
+def input(prefix = '')
+  print prefix, ' > '
   STDIN.gets.chomp.strip
 end
 
-def input_num
-  input.to_i
+def input_num(prefix = '')
+  (input prefix).to_i
 end
