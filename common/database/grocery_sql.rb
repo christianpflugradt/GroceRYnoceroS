@@ -13,7 +13,18 @@ module SqlGrocery
   end
 
   def select_groceries(filter)
-    @db.query 'SELECT id, name FROM groceries WHERE name like ?', "#{filter}%"
+    @db.query 'SELECT id, name FROM groceries WHERE name LIKE ? LIMIT 99', "#{filter}%"
+  end
+
+  def select_unassigned_groceries
+    @db.query 'SELECT id, name FROM groceries where id NOT IN (SELECT grocery_id FROM groceries_in_categories) LIMIT 50'
+  end
+
+  def assign_groceries_to_category(grocery_ids, category_id)
+    sql = "INSERT INTO groceries_in_categories (category_id, grocery_id, created_at) VALUES (?, ?, datetime('now'))"
+    grocery_ids.each do |grocery_id|
+      @db.execute sql, category_id, grocery_id
+    end
   end
 
 end

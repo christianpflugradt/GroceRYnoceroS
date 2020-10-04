@@ -5,7 +5,7 @@ module Menu
   def enter(caller, db)
     inp = nil
     until inp == @subroutines.length + 1
-      (inp and (0..@subroutines.length) === inp) ? (send @subroutines[inp - 1], db) : (print_menu)
+      (inp and (1..@subroutines.length) === inp) ? (send @subroutines[inp - 1], db) : (print_menu)
       inp = input_num
     end
     caller&.print_menu

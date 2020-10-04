@@ -1,4 +1,5 @@
 require_relative 'create_groceries'
+require_relative 'assign_groceries'
 require_relative 'review_groceries'
 
 module ManageGroceries
@@ -26,7 +27,7 @@ MENU
   end
 
   def enter_assign_groceries_sub(db)
-    puts "not yet implemented :("
+    AssignGroceries.enter self, db
   end
 
   def enter_review_groceries_sub(db)
