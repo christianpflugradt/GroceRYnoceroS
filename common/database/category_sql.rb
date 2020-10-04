@@ -12,8 +12,8 @@ module SqlCategory
     @db.execute 'UPDATE categories SET name = ? WHERE id = ?', new_name, id
   end
 
-  def select_categories(filter)
-    @db.query 'SELECT id, name FROM categories WHERE name like ?', "#{filter}%"
+  def select_all_categories
+    @db.query 'SELECT id, name FROM categories'
   end
 
 end

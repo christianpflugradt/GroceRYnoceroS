@@ -5,14 +5,16 @@ module CreateCategories
 
   @hint = <<HINT
 
-    [Create Categories]
+  -------------------
+  [Create Categories]
 
-    Input a category and press enter to confirm.
-    Continue adding categories and confirm each by pressing enter.
-    When you are done just press enter to return to the previous menu.
+  Input a category and press enter to confirm.
+  Continue adding categories and confirm each by pressing enter.
+  When you are done just press enter to return to the previous menu.
       
-    Once you are done adding categories you can review them all
-    and rename or delete those that you input incorrectly.
+  Once you are done adding categories you can review them all
+  and rename or delete those that you input incorrectly.
+  ------------------------------------------------------
 
 HINT
 

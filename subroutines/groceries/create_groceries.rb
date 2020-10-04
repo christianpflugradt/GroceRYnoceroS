@@ -5,15 +5,17 @@ module CreateGroceries
 
   @hint = <<HINT
 
-    [Create Groceries]
+  ------------------
+  [Create Groceries]
 
-    Input a grocery and press enter to confirm.
-    Continue adding groceries and confirm each by pressing enter.
-    When you are done just press enter to return to the previous menu.
+  Input a grocery and press enter to confirm.
+  Continue adding groceries and confirm each by pressing enter.
+  When you are done just press enter to return to the previous menu.
       
-    Once you are done adding groceries you can review them all
-    and rename or delete those that you input incorrectly.
-    You will then also be able to assign them to categories. 
+  Once you are done adding groceries you can review them all
+  and rename or delete those that you input incorrectly.
+  You will then also be able to assign them to categories. 
+  --------------------------------------------------------
 
 HINT
 

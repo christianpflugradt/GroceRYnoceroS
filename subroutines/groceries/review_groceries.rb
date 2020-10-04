@@ -16,39 +16,45 @@ module ReviewGroceries
 
   @hint_filter = <<HINT_FIL
 
-    [Review Groceries]
-    
-    A maximum of 99 groceries will be displayed.
-    You can input a name filter to display only groceries that start with the letters in the filter.
-    For example input the letter M to only match groceries such as Milk or Mushrooms.
-    Or input the letters 'Sal' to only match groceries such as Salad, Salsa or Salmon.
+  ------------------
+  [Review Groceries]
+  
+  A maximum of 99 groceries will be displayed.
+  You can input a name filter to display only groceries that start with the letters in the filter.
+  For example input the letter M to only match groceries such as Milk or Mushrooms.
+  Or input the letters 'Sal' to only match groceries such as Salad, Salsa or Salmon.
 
-    Just press enter if you don't want to apply a filter.
+  Just press enter if you don't want to apply a filter.
+  -----------------------------------------------------
 
 HINT_FIL
 
   @hint_delete = <<HINT_DEL
 
-    [Delete Groceries]
+  ------------------
+  [Delete Groceries]
 
-    Next to each grocery listed above is a number.
-    If you want to delete any of the groceries listed, input their numbers separated by comma.
-    For example enter '1,4,23' to permanently delete the groceries numbered 1, 4 and 23.
+  Next to each grocery listed above is a number.
+  If you want to delete any of the groceries listed, input their numbers separated by comma.
+  For example enter '1,4,23' to permanently delete the groceries numbered 1, 4 and 23.
 
-    Just press enter if you don't want to delete any of these groceries.
+  Just press enter if you don't want to delete any of these groceries.
+  --------------------------------------------------------------------
   
 HINT_DEL
 
   @hint_rename = <<HINT_REN
 
-    [Rename Groceries]
+  ------------------
+  [Rename Groceries]
 
-    Please note that the numbers may have changed if you deleted any groceries in the previous step.
+  Please note that the numbers may have changed if you deleted any groceries in the previous step.
 
-    If you want to rename any of the groceries listed, input their numbers separated by comma.
-    For example enter '1,4,23' to rename the groceries numbered 1, 4 and 23.
+  If you want to rename any of the groceries listed, input their numbers separated by comma.
+  For example enter '1,4,23' to rename the groceries numbered 1, 4 and 23.
 
-    Just press enter if you don't want to rename any of these groceries.
+  Just press enter if you don't want to rename any of these groceries.
+  --------------------------------------------------------------------
 
 HINT_REN
 
@@ -58,13 +64,11 @@ HINT_REN
     puts @hint_filter
     filter = input 'input a filter'
     update_selection db, filter
-    unless @selection.empty?
-      delete_groceries db, filter
-    end
+    delete_groceries db, filter unless @selection.empty?
     if @selection.empty?
-      puts filter.empty? ?
-        "\nYou don't have any groceries in your database." :
-        "\nThere are no groceries matching your filter."
+      print_info filter.empty? ?
+        "You don't have any groceries in your database." :
+        'There are no groceries matching your filter.'
     else
       rename_groceries db
     end
@@ -104,8 +108,8 @@ HINT_REN
   end
 
   def print_selection
-    puts "\n----------"
-    @selection.each { |grocery| puts "(#{grocery.index})\t#{grocery.name}" }
+    print_list_header
+    @selection.each { |grocery| print_list_item grocery.index, grocery.name }
   end
 
   def update_selection(db, filter)
