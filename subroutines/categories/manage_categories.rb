@@ -1,3 +1,5 @@
+require_relative 'create_categories'
+
 module ManageCategories
   extend self, Menu
 
@@ -17,7 +19,7 @@ module ManageCategories
 MENU
 
   def enter_create_categories_sub(db)
-    puts "not yet implemented :("
+    CreateCategories.enter self, db
   end
 
   def enter_review_categories_sub(db)
