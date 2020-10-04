@@ -5,7 +5,7 @@ module SqlGrocery
   end
 
   def delete_groceries(ids)
-    @db.execute "DELETE FROM groceries WHERE id IN (#{ids.map(&:to_s).join(',')})"
+    @db.execute "DELETE FROM groceries WHERE id IN (#{ids.map(&:to_s).join(',')})" unless ids.empty?
   end
 
   def rename_grocery(id, new_name)
@@ -13,17 +13,34 @@ module SqlGrocery
   end
 
   def select_groceries(filter)
-    @db.query 'SELECT id, name FROM groceries WHERE name LIKE ? LIMIT 99', "#{filter}%"
+    @db.query 'SELECT id, name FROM groceries WHERE name LIKE ? ORDER BY name LIMIT 99', "#{filter}%"
+  end
+
+  def select_groceries_by_category(id)
+    sql = <<SQL
+      SELECT g.id, g.name FROM groceries g 
+      INNER JOIN groceries_in_categories gc
+      ON g.id = gc.grocery_id
+      WHERE gc.category_id = ?
+      ORDER BY g.name
+SQL
+    @db.query sql, id
   end
 
   def select_unassigned_groceries
-    @db.query 'SELECT id, name FROM groceries where id NOT IN (SELECT grocery_id FROM groceries_in_categories) LIMIT 50'
+    @db.query <<SQL
+      SELECT id, name FROM groceries 
+      WHERE id NOT IN (SELECT grocery_id FROM groceries_in_categories) 
+      ORDER BY name LIMIT 50
+SQL
   end
 
   def assign_groceries_to_category(grocery_ids, category_id)
-    sql = "INSERT INTO groceries_in_categories (category_id, grocery_id, created_at) VALUES (?, ?, datetime('now'))"
-    grocery_ids.each do |grocery_id|
-      @db.execute sql, category_id, grocery_id
+    unless grocery_ids.empty?
+      sql = "INSERT INTO groceries_in_categories (category_id, grocery_id, created_at) VALUES (?, ?, datetime('now'))"
+      grocery_ids.each do |grocery_id|
+        @db.execute sql, category_id, grocery_id
+      end
     end
   end
 

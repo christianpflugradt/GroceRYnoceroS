@@ -1,4 +1,5 @@
 require_relative 'create_categories'
+require_relative 'remove_from_category'
 require_relative 'review_categories'
 
 module ManageCategories
@@ -30,7 +31,7 @@ MENU
   end
 
   def enter_remove_groceries_sub(db)
-    puts 'not yet implemented :('
+    RemoveFromCategory.enter self, db
   end
 
 end

@@ -69,7 +69,7 @@ HINT_REN
     delete_categories db, filter unless @selection.empty?
     if @selection.empty?
       print_info filter.empty? ?
-                     "You don't have any categpries in your database." :
+                     "You don't have any categories in your database." :
                      'There are no categories matching your filter.'
     else
       rename_categories db
