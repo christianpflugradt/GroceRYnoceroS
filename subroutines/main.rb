@@ -1,5 +1,6 @@
 require_relative '../common/menu'
 require_relative 'groceries/manage_groceries'
+require_relative 'categories/manage_categories'
 
 module Main
   extend self, Menu
@@ -35,7 +36,7 @@ MENU
   end
 
   def enter_manage_categories_sub(db)
-    puts "not yet implemented :("
+    ManageCategories.enter self, db
   end
 
   def enter_manage_shops_sub(db)

@@ -7,7 +7,7 @@ module ManageGroceries
   @subroutines = %i[
     enter_create_groceries_sub
     enter_assign_groceries_sub
-    enter_view_groceries_sub
+    enter_review_groceries_sub
   ]
 
   @menu = <<MENU
@@ -29,7 +29,7 @@ MENU
     puts "not yet implemented :("
   end
 
-  def enter_view_groceries_sub(db)
+  def enter_review_groceries_sub(db)
     ReviewGroceries.enter self, db
   end
 
