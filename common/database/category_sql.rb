@@ -5,11 +5,17 @@ module SqlCategory
   end
 
   def delete_categories(ids)
-    @db.execute "DELETE FROM categories WHERE id IN (#{ids.map(&:to_s).join(',')})"
+    in_clause = ids.map(&:to_s).join(',').to_s
+    @db.execute "DELETE FROM groceries_in_categories WHERE category_id IN (#{in_clause})"
+    @db.execute "DELETE FROM categories WHERE id IN (#{in_clause})"
   end
 
-  def rename_categories(id, new_name)
+  def rename_category(id, new_name)
     @db.execute 'UPDATE categories SET name = ? WHERE id = ?', new_name, id
+  end
+
+  def select_categories(filter)
+    @db.query 'SELECT id, name FROM categories WHERE name LIKE ? LIMIT 99', "#{filter}%"
   end
 
   def select_all_categories

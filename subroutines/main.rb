@@ -28,7 +28,7 @@ module Main
 MENU
 
   def enter_create_list_sub(db)
-    puts "not yet implemented :("
+    puts 'not yet implemented :('
   end
 
   def enter_manage_items_sub(db)
@@ -40,11 +40,11 @@ MENU
   end
 
   def enter_manage_shops_sub(db)
-    puts "not yet implemented :("
+    puts 'not yet implemented :('
   end
 
   def enter_import_shopping_data(db)
-    puts "not yet implemented :("
+    puts 'not yet implemented :('
   end
 
 end
