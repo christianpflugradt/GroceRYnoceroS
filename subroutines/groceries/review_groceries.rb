@@ -80,7 +80,7 @@ HINT_REN
     puts @hint_delete
     ids = input_ids 'delete these groceries'
     unless ids.empty?
-      db.delete_categories(ids.map { |index| find_grocery_by_index(index).id })
+      db.delete_shops(ids.map { |index| find_grocery_by_index(index).id })
       update_selection db, filter
     end
   end

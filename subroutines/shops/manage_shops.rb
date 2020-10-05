@@ -1,4 +1,5 @@
 require_relative 'create_shops'
+require_relative 'review_shops'
 
 module ManageShops
   extend self, Menu
@@ -41,7 +42,7 @@ MENU
   end
 
   def enter_review_shops_sub(db)
-    puts 'not yet implemented :('
+    ReviewShops.enter self, db
   end
 
 end
