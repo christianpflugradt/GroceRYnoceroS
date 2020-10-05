@@ -2,6 +2,7 @@ require 'sqlite3'
 
 require_relative 'category_sql'
 require_relative 'grocery_sql'
+require_relative 'shop_sql'
 require_relative 'version_sql'
 
 DB_FILE = 'grocerynoceros.db'.freeze
@@ -10,6 +11,7 @@ class Database
   include SqlVersion
   include SqlCategory
   include SqlGrocery
+  include SqlShop
 
   @db = nil
 
