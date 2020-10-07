@@ -74,7 +74,6 @@ HINT_REN
     else
       rename_categories db
     end
-    puts @hint_rename
   end
 
   def delete_categories(db, filter)
@@ -98,10 +97,12 @@ HINT_REN
     category = find_category_by_index index
     new_name = input "enter new name for '#{category.name}'"
     if new_name.empty?
-      puts 'category not renamed'
+      print_info 'Category not renamed because of empty input.'
+    elsif db.category_exists? new_name
+      print_info "Category '#{category.name}' not renamed because category '#{new_name}' already exists."
     else
       db.rename_category category.id, new_name
-      puts 'category renamed'
+      print_info 'Category renamed.'
     end
   end
 

@@ -21,10 +21,12 @@ HINT
 
   def run(db)
     puts @hint
-    inp = input 'input shop'
-    until inp.empty?
-      db.insert_shop inp
-      inp = input 'input shop'
+    shop = input 'input shop'
+    until shop.empty?
+      db.shop_exists?(shop) ?
+          print_error("Shop '#{shop}' already exists.") :
+          db.insert_shop(shop)
+      shop = input 'input shop'
     end
 
   end

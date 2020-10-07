@@ -1,5 +1,9 @@
 module SqlCategory
 
+  def category_exists?(category_name)
+    (@db.get_first_row('SELECT COUNT(id) FROM categories WHERE name = ?', category_name)[0]).positive?
+  end
+
   def insert_category(category)
     @db.execute "INSERT INTO categories (name, created_at) VALUES (?, datetime('now'))", category.strip
   end

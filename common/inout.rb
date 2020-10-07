@@ -15,6 +15,10 @@ def print_info(text)
   puts "\n  INFO: #{text}"
 end
 
+def print_error(text)
+  puts "\n  ERROR: #{text}\n\n"
+end
+
 def print_list_header
   puts "\n  ------------------------------"
 end

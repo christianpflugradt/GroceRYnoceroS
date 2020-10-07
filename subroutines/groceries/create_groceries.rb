@@ -21,10 +21,12 @@ HINT
 
   def run(db)
     puts @hint
-    inp = input 'input grocery'
-    until inp.empty?
-      db.insert_grocery inp
-      inp = input 'input grocery'
+    grocery = input 'input grocery'
+    until grocery.empty?
+      db.grocery_exists?(grocery) ?
+        print_error("Grocery '#{grocery}' already exists.") :
+        db.insert_grocery(grocery)
+      grocery = input 'input grocery'
     end
 
   end

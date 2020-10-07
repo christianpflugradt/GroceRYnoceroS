@@ -72,7 +72,6 @@ HINT_REN
     else
       rename_shops db
     end
-    puts @hint_rename
   end
 
   def delete_shops(db, filter)
@@ -96,10 +95,12 @@ HINT_REN
     shop = find_shop_by_index index
     new_name = input "enter new name for '#{shop.name}'"
     if new_name.empty?
-      puts 'shop not renamed'
+      print_info 'Shop not renamed because of empty input.'
+    elsif db.shop_exists? new_name
+      print_info "Shop '#{shop.name}' not renamed because shop '#{new_name}' already exists."
     else
       db.rename_shop shop.id, new_name
-      puts 'shop renamed'
+      print_info 'Shop renamed.'
     end
   end
 

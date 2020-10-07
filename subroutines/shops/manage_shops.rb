@@ -17,9 +17,9 @@ module ManageShops
   [Manage Shops]
 
   (1) create new shops
-  (2) add categories to shops
-  (3) set order of categories for shops
-  (4) remove categories from shops
+  (2) [tbd] add categories to shops
+  (3) [tbd] set order of categories for shops
+  (4) [tbd] remove categories from shops
   (5) view, rename or delete shops
   (6) return to previous menu
 

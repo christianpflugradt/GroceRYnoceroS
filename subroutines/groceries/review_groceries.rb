@@ -72,7 +72,6 @@ HINT_REN
     else
       rename_groceries db
     end
-    puts @hint_rename
   end
 
   def delete_groceries(db, filter)
@@ -80,7 +79,7 @@ HINT_REN
     puts @hint_delete
     ids = input_ids 'delete these groceries'
     unless ids.empty?
-      db.delete_shops(ids.map { |index| find_grocery_by_index(index).id })
+      db.delete_groceries(ids.map { |index| find_grocery_by_index(index).id })
       update_selection db, filter
     end
   end
@@ -96,10 +95,12 @@ HINT_REN
     grocery = find_grocery_by_index index
     new_name = input "enter new name for '#{grocery.name}'"
     if new_name.empty?
-      puts 'grocery not renamed'
+      print_info 'Grocery not renamed because of empty input.'
+    elsif db.grocery_exists? new_name
+      print_info "Grocery '#{grocery.name}' not renamed because grocery '#{new_name}' already exists."
     else
       db.rename_grocery grocery.id, new_name
-      puts 'grocery renamed'
+      print_info 'Grocery renamed.'
     end
   end
 

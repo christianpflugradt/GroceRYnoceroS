@@ -20,10 +20,12 @@ HINT
 
   def run(db)
     puts @hint
-    inp = input 'input category'
-    until inp.empty?
-      db.insert_category inp
-      inp = input 'input category'
+    category = input 'input category'
+    until category.empty?
+      db.category_exists?(category) ?
+          print_error("Category '#{category}' already exists.") :
+          db.insert_category(category)
+      category = input 'input category'
     end
 
   end
