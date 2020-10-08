@@ -1,4 +1,4 @@
-module Script
+module Flow
 
   def enter(caller, db)
     run db

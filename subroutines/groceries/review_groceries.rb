@@ -1,8 +1,8 @@
 require_relative '../../common/inout'
-require_relative '../../common/script'
+require_relative '../../common/flow'
 
 module ReviewGroceries
-  extend self, Script
+  extend self, Flow
 
   class Grocery
     attr_reader :id, :name, :index

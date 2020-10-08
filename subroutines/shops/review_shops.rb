@@ -1,8 +1,8 @@
 require_relative '../../common/inout'
-require_relative '../../common/script'
+require_relative '../../common/flow'
 
 module ReviewShops
-  extend self, Script
+  extend self, Flow
 
   class Shop
     attr_reader :id, :name, :index

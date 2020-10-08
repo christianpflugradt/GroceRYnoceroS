@@ -10,9 +10,10 @@ def input_num(prefix = '')
 end
 
 def input_ids(max_id, prefix = '')
-  ((input prefix).split ',')
-    .map(&:to_i)
-    .filter { |id| (1..max_id).include? id }
+  inp = ((input prefix).split ',').map(&:to_i)
+  inp.include?(-1) ?
+      1..max_id :
+      inp.filter { |id| (1..max_id).include? id }
 end
 
 def print_ack(text)
