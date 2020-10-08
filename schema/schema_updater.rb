@@ -14,7 +14,7 @@ module SchemaUpdater
     file = File.open filename
     db.ddl file.read
     db.apply filename
-    puts "applied #{filename}"
+    stdout "applied #{filename}"
   ensure
     file&.close
   end

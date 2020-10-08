@@ -77,15 +77,22 @@ HINT_GRO
     category = find_by_index(input_num('remove from this category'), @categories)
     unless category.nil?
       load_groceries db, category.id
-      @groceries.each do |batch|
-        print_list batch
-        print_usage_text @hint_gro
-        groceries = input_ids("remove from category '#{category.name}'")
-                    .map { |index| find_by_index index, batch }.map(&:id)
-        # TODO handle invalid ids
-        db.remove_groceries_from_category category.id, groceries
-        print_ack "#{groceries.length} groceries removed from category '#{category.name}'."
+      if @groceries.empty?
+        print_error "Category '#{category.name}' does not have any groceries assigned."
+      else
+        remove_from_category_batched db, category
       end
+    end
+  end
+
+  def remove_from_category_batched(db, category)
+    @groceries.each do |batch|
+      print_list batch
+      print_usage_text @hint_gro
+      groceries = input_ids(batch.length, "remove from category '#{category.name}'")
+                  .map { |index| find_by_index index, batch }.map(&:id)
+      db.remove_groceries_from_category category.id, groceries
+      print_ack "#{groceries.length} groceries removed from category '#{category.name}'."
     end
   end
 
@@ -102,7 +109,7 @@ HINT_GRO
   def print_list(list)
     print_list_header
     list.each { |item| print_list_item item.index, item.name }
-    puts ''
+    stdout ''
   end
 
   def load_categories(db, filter)

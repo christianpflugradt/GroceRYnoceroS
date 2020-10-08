@@ -1,7 +1,7 @@
 require 'colorize'
 
 def input(prefix = '')
-  print prefix, ' > '
+  print prefix.white, ' > '.white
   STDIN.gets.chomp.strip
 end
 
@@ -9,8 +9,10 @@ def input_num(prefix = '')
   (input prefix).to_i
 end
 
-def input_ids(prefix = '')
-  ((input prefix).split ',').map(&:to_i)
+def input_ids(max_id, prefix = '')
+  ((input prefix).split ',')
+    .map(&:to_i)
+    .filter { |id| (1..max_id).include? id }
 end
 
 def print_ack(text)
@@ -43,4 +45,8 @@ end
 
 def print_usage_text(info_text)
   puts info_text.yellow
+end
+
+def stdout(*text)
+  text.each { |str| puts str.white }
 end

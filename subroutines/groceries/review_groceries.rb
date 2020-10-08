@@ -77,9 +77,8 @@ HINT_REN
   def delete_groceries(db, filter)
     print_selection
     print_usage_text @hint_delete
-    ids = input_ids 'delete these groceries'
+    ids = input_ids max_id, 'delete these groceries'
     unless ids.empty?
-      # TODO: handle invalid ids
       db.delete_groceries(ids.map { |index| find_grocery_by_index(index).id })
       print_ack "#{ids.length} groceries have been deleted."
       update_selection db, filter
@@ -89,13 +88,12 @@ HINT_REN
   def rename_groceries(db)
     print_selection
     print_usage_text @hint_rename
-    ids = input_ids 'rename these groceries'
+    ids = input_ids max_id, 'rename these groceries'
     ids.each { |index| rename_grocery db, index }
   end
 
   def rename_grocery(db, index)
     grocery = find_grocery_by_index index
-    # TODO: handle not resolved
     new_name = input "enter new name for '#{grocery.name}'"
     if new_name.empty?
       print_nack "Grocery '#{grocery.name}' not renamed because of empty input."
@@ -126,6 +124,10 @@ HINT_REN
     ensure
       sql_result.close
     end
+  end
+
+  def max_id
+    @selection.length
   end
 
 end

@@ -1,4 +1,5 @@
 require_relative '../common/menu'
+require_relative '../common/inout'
 require_relative 'groceries/manage_groceries'
 require_relative 'categories/manage_categories'
 require_relative 'shops/manage_shops'
@@ -29,7 +30,7 @@ module Main
 MENU
 
   def enter_create_list_sub(db)
-    puts 'not yet implemented :('
+    stdout 'not yet implemented :('
   end
 
   def enter_manage_items_sub(db)
@@ -45,7 +46,7 @@ MENU
   end
 
   def enter_import_shopping_data(db)
-    puts 'not yet implemented :('
+    stdout 'not yet implemented :('
   end
 
 end
