@@ -1,8 +1,8 @@
 require_relative '../../common/inout'
-require_relative '../../common/script'
+require_relative '../../common/flow'
 
 module RemoveFromCategory
-  extend self, Script
+  extend self, Flow
 
   class Item
     attr_reader :id, :name, :index
@@ -47,6 +47,7 @@ HINT_CAT
 
   Only up to 99 groceries are listed. If the category contains more groceries,
   the next batch of groceries will be displayed after you have confirmed your choice.
+  To remove all displayed groceries from the category
 
   Removed groceries will become unassigned.
   They can be assigned to another category from the menu 'Manage Groceries'.
@@ -75,7 +76,9 @@ HINT_GRO
   def remove_from_category(db)
     print_list @categories
     category = find_by_index(input_num('remove from this category'), @categories)
-    unless category.nil?
+    if category.nil?
+      print_error 'Category number is invalid.'
+    else
       load_groceries db, category.id
       if @groceries.empty?
         print_error "Category '#{category.name}' does not have any groceries assigned."

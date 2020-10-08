@@ -1,7 +1,7 @@
-require_relative '../../common/script'
+require_relative '../../common/flow'
 
 module CreateGroceries
-  extend self, Script
+  extend self, Flow
 
   @hint = <<HINT
 

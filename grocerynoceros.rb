@@ -3,7 +3,8 @@ require_relative 'common/inout'
 def random_tip
   tip1 = <<~TIP1
     Whenever you are offered to input multiple values, you can enter -1 to select all items from the list.
-    Use this feature with care as this allows you to do dangerous things such as irrevocably deleting 99 groceries at once.
+    This feature is sort of hidden because it can be very dangerous.
+    Treat with caution or you might accidentally delete 99 groceries with a single press of the enter key.
   TIP1
   tip2 = <<~TIP2
     Pay attention to the text colour to know where you are:
