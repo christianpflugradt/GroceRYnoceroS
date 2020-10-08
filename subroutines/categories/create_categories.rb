@@ -19,11 +19,16 @@ module CreateCategories
 HINT
 
   def run(db)
-    puts @hint
-    inp = input 'input category'
-    until inp.empty?
-      db.insert_category inp
-      inp = input 'input category'
+    print_usage_text @hint
+    category = input 'input category'
+    until category.empty?
+      if db.category_exists?(0, category)
+        print_error "Category '#{category}' already exists."
+      else
+        db.insert_category(category)
+        print_ack "Category '#{category}' created."
+      end
+      category = input 'input category'
     end
 
   end

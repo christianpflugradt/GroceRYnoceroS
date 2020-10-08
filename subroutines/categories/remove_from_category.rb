@@ -60,11 +60,11 @@ HINT_GRO
   @groceries = []
 
   def run(db)
-    puts @hint_cat
+    print_usage_text @hint_cat
     filter = input 'input a filter'
     load_categories db, filter
     if @categories.empty?
-      print_info filter.empty? ?
+      print_nack filter.empty? ?
                      "You don't have any categories in your database." :
                      'There are no categories matching your filter.'
     else
@@ -75,13 +75,17 @@ HINT_GRO
   def remove_from_category(db)
     print_list @categories
     category = find_by_index(input_num('remove from this category'), @categories)
-    load_groceries db, category.id
-    @groceries.each do |batch|
-      print_list batch
-      puts @hint_gro
-      groceries = input_ids("remove from category '#{category.name}'")
-                  .map { |index| find_by_index index, batch }.map(&:id)
-      db.remove_groceries_from_category category.id, groceries
+    unless category.nil?
+      load_groceries db, category.id
+      @groceries.each do |batch|
+        print_list batch
+        print_usage_text @hint_gro
+        groceries = input_ids("remove from category '#{category.name}'")
+                    .map { |index| find_by_index index, batch }.map(&:id)
+        # TODO handle invalid ids
+        db.remove_groceries_from_category category.id, groceries
+        print_ack "#{groceries.length} groceries removed from category '#{category.name}'."
+      end
     end
   end
 

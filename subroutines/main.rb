@@ -19,11 +19,11 @@ module Main
 
   [Main]
 
-  (1) create shopping list
+  (1) [tbd] create shopping list
   (2) manage groceries
   (3) manage categories
   (4) manage shops
-  (5) import data
+  (5) [tbd] import data
   (6) quit GroceRYinoceroS
 
 MENU
@@ -36,7 +36,7 @@ MENU
     ManageGroceries.enter self, db
   end
 
-  def enter_managu_categories_sub(db)
+  def enter_manage_categories_sub(db)
     ManageCategories.enter self, db
   end
 

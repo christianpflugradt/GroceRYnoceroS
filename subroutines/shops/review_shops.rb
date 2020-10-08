@@ -61,45 +61,49 @@ HINT_REN
   @selection = []
 
   def run(db)
-    puts @hint_filter
+    print_usage_text @hint_filter
     filter = input 'input a filter'
     update_selection db, filter
     delete_shops db, filter unless @selection.empty?
     if @selection.empty?
-      print_info filter.empty? ?
+      print_nack filter.empty? ?
                      "You don't have any shops in your database." :
                      'There are no shops matching your filter.'
     else
       rename_shops db
     end
-    puts @hint_rename
   end
 
   def delete_shops(db, filter)
     print_selection
-    puts @hint_delete
+    print_usage_text @hint_delete
     ids = input_ids 'delete these shops'
     unless ids.empty?
+      # TODO: handle invalid ids
       db.delete_shops(ids.map { |index| find_shop_by_index(index).id })
+      print_ack "#{ids.length} shops have been deleted."
       update_selection db, filter
     end
   end
 
   def rename_shops(db)
     print_selection
-    puts @hint_rename
+    print_usage_text @hint_rename
     ids = input_ids 'rename these shops'
     ids.each { |index| rename_shop db, index }
   end
 
-  def rename_shop(db, index)
+  def rename_shop(db, indexcommand)
     shop = find_shop_by_index index
+    # TODO: handle not resolved
     new_name = input "enter new name for '#{shop.name}'"
     if new_name.empty?
-      puts 'shop not renamed'
+      print_nack "Shop '#{shop.name}' not renamed because of empty input."
+    elsif db.shop_exists? shop.id, new_name
+      print_error "Shop '#{shop.name}' not renamed because shop '#{new_name}' already exists."
     else
       db.rename_shop shop.id, new_name
-      puts 'shop renamed'
+      print_ack "Shop '#{shop.name}' renamed to '#{new_name}'."
     end
   end
 

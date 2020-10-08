@@ -1,5 +1,7 @@
+require_relative 'common/inout'
+
 def print_banner
-  puts <<BANNER
+  print_banner_text <<BANNER
                          *@@@@%.                                                                                        
                          #@/@% (@@,                  ,                                                                  
                         (@@  (@@ /@%            .%@@@@@&                                                                
@@ -36,7 +38,7 @@ BANNER
 end
 
 def print_bye_bye
-  puts <<BYEBYE
+  print_banner_text <<BYEBYE
 
  /))_         _             _            
 /   .\\/)     |_) | | \\_/   |_) | | \\_/ | 

@@ -61,45 +61,49 @@ HINT_REN
   @selection = []
 
   def run(db)
-    puts @hint_filter
+    print_usage_text @hint_filter
     filter = input 'input a filter'
     update_selection db, filter
     delete_groceries db, filter unless @selection.empty?
     if @selection.empty?
-      print_info filter.empty? ?
+      print_nack filter.empty? ?
         "You don't have any groceries in your database." :
         'There are no groceries matching your filter.'
     else
       rename_groceries db
     end
-    puts @hint_rename
   end
 
   def delete_groceries(db, filter)
     print_selection
-    puts @hint_delete
+    print_usage_text @hint_delete
     ids = input_ids 'delete these groceries'
     unless ids.empty?
-      db.delete_shops(ids.map { |index| find_grocery_by_index(index).id })
+      # TODO: handle invalid ids
+      db.delete_groceries(ids.map { |index| find_grocery_by_index(index).id })
+      print_ack "#{ids.length} groceries have been deleted."
       update_selection db, filter
     end
   end
 
   def rename_groceries(db)
     print_selection
-    puts @hint_rename
+    print_usage_text @hint_rename
     ids = input_ids 'rename these groceries'
     ids.each { |index| rename_grocery db, index }
   end
 
   def rename_grocery(db, index)
     grocery = find_grocery_by_index index
+    # TODO: handle not resolved
     new_name = input "enter new name for '#{grocery.name}'"
     if new_name.empty?
-      puts 'grocery not renamed'
+      print_nack "Grocery '#{grocery.name}' not renamed because of empty input."
+    elsif db.grocery_exists? grocery.id, new_name
+      print_error "Grocery '#{grocery.name}' not renamed because grocery '#{new_name}' already exists."
     else
       db.rename_grocery grocery.id, new_name
-      puts 'grocery renamed'
+      print_ack "Grocery '#{grocery.name}' renamed to '#{new_name}'."
     end
   end
 

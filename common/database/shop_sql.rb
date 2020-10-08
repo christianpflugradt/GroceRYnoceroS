@@ -1,5 +1,9 @@
 module SqlShop
 
+  def shop_exists?(id, shop_name)
+    (@db.get_first_row('SELECT COUNT(id) FROM shops WHERE name = ? AND id <> ?', shop_name, id)[0]).positive?
+  end
+
   def insert_shop(shop)
     @db.execute "INSERT INTO shops (name, created_at) VALUES (?, datetime('now'))", shop.strip
   end

@@ -1,5 +1,9 @@
 module SqlGrocery
 
+  def grocery_exists?(id, grocery_name)
+    (@db.get_first_row('SELECT COUNT(id) FROM groceries WHERE name = ? AND id <> ?', grocery_name, id)[0]).positive?
+  end
+
   def insert_grocery(grocery)
     @db.execute "INSERT INTO groceries (name, created_at) VALUES (?, datetime('now'))", grocery.strip
   end
