@@ -1,5 +1,6 @@
 require_relative 'create_shops'
 require_relative 'review_shops'
+require_relative '../../common/inout'
 
 module ManageShops
   extend self, Menu
@@ -30,15 +31,15 @@ MENU
   end
 
   def enter_add_categories_sub(db)
-    puts 'not yet implemented :('
+    stdout 'not yet implemented :('
   end
 
   def enter_set_category_order_sub(db)
-    puts 'not yet implemented :('
+    stdout 'not yet implemented :('
   end
 
   def enter_remove_categories_sub(db)
-    puts 'not yet implemented :('
+    stdout 'not yet implemented :('
   end
 
   def enter_review_shops_sub(db)

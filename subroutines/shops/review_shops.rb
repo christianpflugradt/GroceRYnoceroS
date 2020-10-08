@@ -77,9 +77,8 @@ HINT_REN
   def delete_shops(db, filter)
     print_selection
     print_usage_text @hint_delete
-    ids = input_ids 'delete these shops'
+    ids = input_ids max_id, 'delete these shops'
     unless ids.empty?
-      # TODO: handle invalid ids
       db.delete_shops(ids.map { |index| find_shop_by_index(index).id })
       print_ack "#{ids.length} shops have been deleted."
       update_selection db, filter
@@ -89,13 +88,12 @@ HINT_REN
   def rename_shops(db)
     print_selection
     print_usage_text @hint_rename
-    ids = input_ids 'rename these shops'
+    ids = input_ids max_id, 'rename these shops'
     ids.each { |index| rename_shop db, index }
   end
 
-  def rename_shop(db, indexcommand)
+  def rename_shop(db, index)
     shop = find_shop_by_index index
-    # TODO: handle not resolved
     new_name = input "enter new name for '#{shop.name}'"
     if new_name.empty?
       print_nack "Shop '#{shop.name}' not renamed because of empty input."
@@ -128,4 +126,8 @@ HINT_REN
     end
   end
 
+  def max_id
+    @selection.length
+  end
+  
 end

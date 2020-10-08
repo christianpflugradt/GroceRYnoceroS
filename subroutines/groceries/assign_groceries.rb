@@ -69,7 +69,7 @@ HINT_GRO
   def assign_per_category(db)
     print_list @categories
     print_usage_text @hint_cat
-    filter_categories input_ids 'use these categories'
+    filter_categories input_ids @categories.length, 'use these categories'
     load_groceries db
     @categories.each do |category|
       break unless assign_groceries_if_possible db, category
@@ -79,21 +79,23 @@ HINT_GRO
   def assign_groceries_if_possible(db, category)
     success = !@groceries.empty?
     if success
-      assign_groceries db, category
+      grocery_ids = prepare_assign_groceries category
+      assign_groceries db, category, grocery_ids unless grocery_ids.empty?
     else
       print_ack 'All groceries have been assigned.'
     end
     success
   end
 
-  def assign_groceries(db, category)
+  def prepare_assign_groceries(category)
     print_list @groceries
     print_usage_text @hint_gro
-    grocery_ids = (input_ids "assign to category '#{category.name}'")
-                  .map { |index| find_by_index index, @groceries }.map(&:id)
-    # TODO: handle empty list
-    # TODO: remove invalid ids
-    # TODO: remove already linked ids
+    (input_ids @groceries.length, "assign to category '#{category.name}'")
+      .map { |index| find_by_index index, @groceries }
+      .map(&:id)
+  end
+
+  def assign_groceries(db, category, grocery_ids)
     db.assign_groceries_to_category(grocery_ids, category.id)
     print_ack "#{grocery_ids.length} groceries have been assigned to category '#{category.name}'."
     @groceries.delete_if do |grocery|

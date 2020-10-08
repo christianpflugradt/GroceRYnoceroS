@@ -79,9 +79,8 @@ HINT_REN
   def delete_categories(db, filter)
     print_selection
     print_usage_text @hint_delete
-    ids = input_ids 'delete these categories'
+    ids = input_ids max_id, 'delete these categories'
     unless ids.empty?
-      # TODO: handle invalid ids
       db.delete_categories(ids.map { |index| find_category_by_index(index).id })
       print_ack "#{ids.length} categories have been deleted."
       update_selection db, filter
@@ -91,13 +90,12 @@ HINT_REN
   def rename_categories(db)
     print_selection
     print_usage_text @hint_rename
-    ids = input_ids 'rename these categories'
+    ids = input_ids max_id, 'rename these categories'
     ids.each { |index| rename_category db, index }
   end
 
   def rename_category(db, index)
     category = find_category_by_index index
-    # TODO: handle not resolved
     new_name = input "enter new name for '#{category.name}'"
     if new_name.empty?
       print_nack "Category '#{category.name}' not renamed because of empty input."
@@ -128,6 +126,10 @@ HINT_REN
     ensure
       sql_result.close
     end
+  end
+
+  def max_id
+    @selection.length
   end
 
 end
