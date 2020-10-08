@@ -1,7 +1,7 @@
 module SqlGrocery
 
-  def grocery_exists?(grocery_name)
-    (@db.get_first_row('SELECT COUNT(id) FROM groceries WHERE name = ?', grocery_name)[0]).positive?
+  def grocery_exists?(id, grocery_name)
+    (@db.get_first_row('SELECT COUNT(id) FROM groceries WHERE name = ? AND id <> ?', grocery_name, id)[0]).positive?
   end
 
   def insert_grocery(grocery)

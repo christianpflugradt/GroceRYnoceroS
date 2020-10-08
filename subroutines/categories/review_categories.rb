@@ -63,12 +63,12 @@ HINT_REN
   @selection = []
 
   def run(db)
-    puts @hint_filter
+    print_usage_text @hint_filter
     filter = input 'input a filter'
     update_selection db, filter
     delete_categories db, filter unless @selection.empty?
     if @selection.empty?
-      print_info filter.empty? ?
+      print_nack filter.empty? ?
                      "You don't have any categories in your database." :
                      'There are no categories matching your filter.'
     else
@@ -78,31 +78,34 @@ HINT_REN
 
   def delete_categories(db, filter)
     print_selection
-    puts @hint_delete
+    print_usage_text @hint_delete
     ids = input_ids 'delete these categories'
     unless ids.empty?
+      # TODO: handle invalid ids
       db.delete_categories(ids.map { |index| find_category_by_index(index).id })
+      print_ack "#{ids.length} categories have been deleted."
       update_selection db, filter
     end
   end
 
   def rename_categories(db)
     print_selection
-    puts @hint_rename
+    print_usage_text @hint_rename
     ids = input_ids 'rename these categories'
     ids.each { |index| rename_category db, index }
   end
 
   def rename_category(db, index)
     category = find_category_by_index index
+    # TODO: handle not resolved
     new_name = input "enter new name for '#{category.name}'"
     if new_name.empty?
-      print_info 'Category not renamed because of empty input.'
-    elsif db.category_exists? new_name
-      print_info "Category '#{category.name}' not renamed because category '#{new_name}' already exists."
+      print_nack "Category '#{category.name}' not renamed because of empty input."
+    elsif db.category_exists? category.id, new_name
+      print_error "Category '#{category.name}' not renamed because category '#{new_name}' already exists."
     else
       db.rename_category category.id, new_name
-      print_info 'Category renamed.'
+      print_ack "Category '#{category.name}' renamed to '#{new_name}'."
     end
   end
 

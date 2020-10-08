@@ -60,7 +60,7 @@ HINT_GRO
   def run(db)
     load_categories db
     if @categories.empty?
-      print_info "You don't have any categories in your database."
+      print_error "You don't have any categories in your database."
     else
       assign_per_category db
     end
@@ -68,7 +68,7 @@ HINT_GRO
 
   def assign_per_category(db)
     print_list @categories
-    puts @hint_cat
+    print_usage_text @hint_cat
     filter_categories input_ids 'use these categories'
     load_groceries db
     @categories.each do |category|
@@ -81,17 +81,21 @@ HINT_GRO
     if success
       assign_groceries db, category
     else
-      print_info 'All groceries have been assigned.'
+      print_ack 'All groceries have been assigned.'
     end
     success
   end
 
   def assign_groceries(db, category)
     print_list @groceries
-    puts @hint_gro
+    print_usage_text @hint_gro
     grocery_ids = (input_ids "assign to category '#{category.name}'")
                   .map { |index| find_by_index index, @groceries }.map(&:id)
+    # TODO: handle empty list
+    # TODO: remove invalid ids
+    # TODO: remove already linked ids
     db.assign_groceries_to_category(grocery_ids, category.id)
+    print_ack "#{grocery_ids.length} groceries have been assigned to category '#{category.name}'."
     @groceries.delete_if do |grocery|
       grocery_ids.include? grocery.id
     end

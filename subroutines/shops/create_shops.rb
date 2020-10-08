@@ -20,12 +20,15 @@ module CreateShops
 HINT
 
   def run(db)
-    puts @hint
+    print_usage_text @hint
     shop = input 'input shop'
     until shop.empty?
-      db.shop_exists?(shop) ?
-          print_error("Shop '#{shop}' already exists.") :
-          db.insert_shop(shop)
+      if db.shop_exists?(0, shop)
+        print_error "Shop '#{shop}' already exists."
+      else
+        db.insert_shop(shop)
+        print_ack "Shop '#{shop}' created."
+      end
       shop = input 'input shop'
     end
 

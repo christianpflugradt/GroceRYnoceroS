@@ -1,7 +1,7 @@
 module SqlCategory
 
-  def category_exists?(category_name)
-    (@db.get_first_row('SELECT COUNT(id) FROM categories WHERE name = ?', category_name)[0]).positive?
+  def category_exists?(id, category_name)
+    (@db.get_first_row('SELECT COUNT(id) FROM categories WHERE name = ? AND id <> ?', category_name, id)[0]).positive?
   end
 
   def insert_category(category)

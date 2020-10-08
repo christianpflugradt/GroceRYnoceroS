@@ -20,12 +20,15 @@ module CreateGroceries
 HINT
 
   def run(db)
-    puts @hint
+    print_usage_text @hint
     grocery = input 'input grocery'
     until grocery.empty?
-      db.grocery_exists?(grocery) ?
-        print_error("Grocery '#{grocery}' already exists.") :
+      if db.grocery_exists?(0, grocery)
+        print_error "Grocery '#{grocery}' already exists."
+      else
         db.insert_grocery(grocery)
+        print_ack "Grocery '#{grocery}' created."
+      end
       grocery = input 'input grocery'
     end
 

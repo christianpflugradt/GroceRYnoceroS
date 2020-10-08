@@ -6,4 +6,11 @@ A grocery list consists of groceries which belong to categories such as dairy go
 Grocery lists are created for a grocery store with a defined order of categories
 optimized to make the shopping experience as efficient as possible.
 
-GrocerRYnoceroS is still work in progress. This readme will be updated once the tool is considered production ready.
+    GrocerRYnoceroS is still work in progress.
+    This readme will be updated once the tool is considered production ready.
+
+## requirements ##
+ * Ruby 2.7 must be installed
+ * Gems must be installed
+    * gem install colorize
+    * gem install sqlite3
