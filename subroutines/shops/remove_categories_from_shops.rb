@@ -89,10 +89,10 @@ HINT_CAT
     end
   end
 
-  def prepare_add_categories(shop)
+  def prepare_add_categories(category)
     print_list @categories
     print_usage_text @hint_cat
-    (input_ids @categories.length, "add to shop '#{shop.name}'")
+    (input_ids @categories.length, "assign to category '#{category.name}'")
       .map { |index| find_by_index index, @categories }
       .map(&:id)
   end
