@@ -104,7 +104,7 @@ HINT_CAT
   end
 
   def find_by_index(id, list)
-    list.find { |grocery| grocery.index == id }
+    list.find { |category| category.index == id }
   end
 
   def filter_shops(ids)
