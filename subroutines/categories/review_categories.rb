@@ -81,7 +81,7 @@ HINT_REN
     if new_name.empty?
       print_nack "Category '#{category.name}' not renamed because of empty input."
     elsif db.category_exists? category.id, new_name
-      print_error "Category '#{category.name}' not renamed because category '#{new_name}' already exists."
+      print_nack "Category '#{category.name}' not renamed because category '#{new_name}' already exists."
     else
       db.rename_category category.id, new_name
       print_ack "Category '#{category.name}' renamed to '#{new_name}'."

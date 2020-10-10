@@ -64,7 +64,7 @@ HINT_CAT
   def run(db)
     load_shops db
     if @shops.empty?
-      print_error "You don't have any shops in your database."
+      print_nack "You don't have any shops in your database."
     else
       add_per_shop db
     end
@@ -82,7 +82,7 @@ HINT_CAT
 
   def add_categories_to_shop(db, shop)
     if @categories.empty?
-      print_error "All categories have already been added to shop '#{shop.name}'."
+      print_nack "All categories have already been added to shop '#{shop.name}'."
     else
       category_ids = prepare_add_categories shop
       add_given_categories db, shop, category_ids unless category_ids.empty?

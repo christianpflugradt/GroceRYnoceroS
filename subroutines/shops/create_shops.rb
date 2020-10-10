@@ -24,7 +24,7 @@ HINT
     shop = input 'input shop'
     until shop.empty?
       if db.shop_exists?(0, shop)
-        print_error "Shop '#{shop}' already exists."
+        print_nack "Shop '#{shop}' already exists."
       else
         db.insert_shop(shop)
         print_ack "Shop '#{shop}' created."

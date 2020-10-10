@@ -24,10 +24,6 @@ def print_nack(text)
   puts text.red
 end
 
-def print_error(text)
-  puts text.red.bold
-end
-
 def print_list_header
   puts "\n  ------------------------------".blue
 end

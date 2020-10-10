@@ -57,7 +57,7 @@ HINT_CAT
   def run(db)
     load_shops db
     if @shops.empty?
-      print_error "You don't have any shops in your database."
+      print_nack "You don't have any shops in your database."
     else
       remove_per_shop db
     end
@@ -75,7 +75,7 @@ HINT_CAT
 
   def remove_categories_from_shop(db, shop)
     if @categories.empty?
-      print_error "There are no categories added to shop '#{shop.name}'."
+      print_nack "There are no categories added to shop '#{shop.name}'."
     else
       category_ids = prepare_remove_categories shop
       remove_given_categories db, shop, category_ids unless category_ids.empty?

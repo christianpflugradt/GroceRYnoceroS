@@ -60,7 +60,7 @@ HINT_GRO
   def run(db)
     load_categories db
     if @shops.empty?
-      print_error "You don't have any categories in your database."
+      print_nack "You don't have any categories in your database."
     else
       assign_per_category db
     end

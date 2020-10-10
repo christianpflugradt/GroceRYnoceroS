@@ -70,11 +70,11 @@ HINT_GRO
     print_usage_text @hint_shop
     category = find_by_index(input_num('remove from this category'), @categories)
     if category.nil?
-      print_error 'Category number is invalid.'
+      print_nack 'Category number is invalid.'
     else
       load_groceries db, category.id
       if @groceries.empty?
-        print_error "Category '#{category.name}' does not have any groceries assigned."
+        print_nack "Category '#{category.name}' does not have any groceries assigned."
       else
         remove_from_category_batched db, category
       end
