@@ -21,7 +21,7 @@ module AssignGroceries
   class Category < Item
   end
 
-  @hint_cat = <<HINT_CAT
+  @hint_shop = <<HINT_CAT
 
   ----------------------------------
   [Select Categories for Assignment]
@@ -37,7 +37,7 @@ module AssignGroceries
 
 HINT_CAT
 
-  @hint_gro = <<HINT_GRO
+  @hint_cat = <<HINT_GRO
 
   ------------------
   [Assign Groceries]
@@ -54,12 +54,12 @@ HINT_CAT
 
 HINT_GRO
 
+  @shops = []
   @categories = []
-  @groceries = []
 
   def run(db)
     load_categories db
-    if @categories.empty?
+    if @shops.empty?
       print_error "You don't have any categories in your database."
     else
       assign_per_category db
@@ -67,17 +67,17 @@ HINT_GRO
   end
 
   def assign_per_category(db)
-    print_list @categories
-    print_usage_text @hint_cat
-    filter_categories input_ids @categories.length, 'use these categories'
+    print_list @shops
+    print_usage_text @hint_shop
+    filter_categories input_ids @shops.length, 'use these categories'
     load_groceries db
-    @categories.each do |category|
+    @shops.each do |category|
       break unless assign_groceries_if_possible db, category
     end
   end
 
   def assign_groceries_if_possible(db, category)
-    success = !@groceries.empty?
+    success = !@categories.empty?
     if success
       grocery_ids = prepare_assign_groceries category
       assign_groceries db, category, grocery_ids unless grocery_ids.empty?
@@ -88,17 +88,17 @@ HINT_GRO
   end
 
   def prepare_assign_groceries(category)
-    print_list @groceries
-    print_usage_text @hint_gro
-    (input_ids @groceries.length, "assign to category '#{category.name}'")
-      .map { |index| find_by_index index, @groceries }
+    print_list @categories
+    print_usage_text @hint_cat
+    (input_ids @categories.length, "assign to category '#{category.name}'")
+      .map { |index| find_by_index index, @categories }
       .map(&:id)
   end
 
   def assign_groceries(db, category, grocery_ids)
     db.assign_groceries_to_category(grocery_ids, category.id)
     print_ack "#{grocery_ids.length} groceries have been assigned to category '#{category.name}'."
-    @groceries.delete_if do |grocery|
+    @categories.delete_if do |grocery|
       grocery_ids.include? grocery.id
     end
     update_grocery_indices
@@ -109,7 +109,7 @@ HINT_GRO
   end
 
   def filter_categories(ids)
-    @categories = @categories.filter do |item|
+    @shops = @shops.filter do |item|
       ids.include? item.index
     end
   end
@@ -120,11 +120,11 @@ HINT_GRO
   end
 
   def load_categories(db)
-    @categories.clear
+    @shops.clear
     sql_result = db.select_all_categories
     begin
       sql_result.each_with_index do |row, index|
-        @categories.append Category.new row[0], row[1], index + 1
+        @shops.append Category.new row[0], row[1], index + 1
       end
     ensure
       sql_result.close
@@ -132,11 +132,11 @@ HINT_GRO
   end
 
   def load_groceries(db)
-    @groceries.clear
+    @categories.clear
     sql_result = db.select_unassigned_groceries
     begin
       sql_result.each_with_index do |row, index|
-        @groceries.append Grocery.new row[0], row[1], index + 1
+        @categories.append Grocery.new row[0], row[1], index + 1
       end
     ensure
       sql_result.close
@@ -144,7 +144,7 @@ HINT_GRO
   end
 
   def update_grocery_indices
-    @groceries.each_with_index do |grocery, index|
+    @categories.each_with_index do |grocery, index|
       grocery.index = index + 1
     end
   end

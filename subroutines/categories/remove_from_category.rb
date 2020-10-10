@@ -21,7 +21,7 @@ module RemoveFromCategory
     attr_writer :index
   end
 
-  @hint_cat = <<HINT_CAT
+  @hint_shop = <<HINT_CAT
 
   -----------------
   [Choose Category]
@@ -38,7 +38,7 @@ module RemoveFromCategory
 
 HINT_CAT
 
-  @hint_gro = <<HINT_GRO
+  @hint_cat = <<HINT_GRO
   -----------------------------------------
   [Remove Groceries from Selected Category]
 
@@ -57,14 +57,14 @@ HINT_CAT
 
 HINT_GRO
 
+  @shops = []
   @categories = []
-  @groceries = []
 
   def run(db)
-    print_usage_text @hint_cat
+    print_usage_text @hint_shop
     filter = input 'input a filter'
     load_categories db, filter
-    if @categories.empty?
+    if @shops.empty?
       print_nack filter.empty? ?
                      "You don't have any categories in your database." :
                      'There are no categories matching your filter.'
@@ -74,13 +74,13 @@ HINT_GRO
   end
 
   def remove_from_category(db)
-    print_list @categories
-    category = find_by_index(input_num('remove from this category'), @categories)
+    print_list @shops
+    category = find_by_index(input_num('remove from this category'), @shops)
     if category.nil?
       print_error 'Category number is invalid.'
     else
       load_groceries db, category.id
-      if @groceries.empty?
+      if @categories.empty?
         print_error "Category '#{category.name}' does not have any groceries assigned."
       else
         remove_from_category_batched db, category
@@ -89,9 +89,9 @@ HINT_GRO
   end
 
   def remove_from_category_batched(db, category)
-    @groceries.each do |batch|
+    @categories.each do |batch|
       print_list batch
-      print_usage_text @hint_gro
+      print_usage_text @hint_cat
       groceries = input_ids(batch.length, "remove from category '#{category.name}'")
                   .map { |index| find_by_index index, batch }.map(&:id)
       db.remove_groceries_from_category category.id, groceries
@@ -104,7 +104,7 @@ HINT_GRO
   end
 
   def filter_categories(ids)
-    @categories = @categories.filter do |item|
+    @shops = @shops.filter do |item|
       ids.include? item.index
     end
   end
@@ -116,11 +116,11 @@ HINT_GRO
   end
 
   def load_categories(db, filter)
-    @categories.clear
+    @shops.clear
     sql_result = db.select_categories filter
     begin
       sql_result.each_with_index do |row, index|
-        @categories.append Category.new row[0], row[1], index + 1
+        @shops.append Category.new row[0], row[1], index + 1
       end
     ensure
       sql_result.close
@@ -128,7 +128,7 @@ HINT_GRO
   end
 
   def load_groceries(db, id)
-    @groceries.clear
+    @categories.clear
     sql_result = db.select_groceries_by_category id
     begin
       load_groceries_batched sql_result
@@ -142,16 +142,16 @@ HINT_GRO
     sql_result.each_with_index do |row, index|
       modulo = (index % 50)
       if modulo.zero?
-        @groceries.append batch unless batch.empty?
+        @categories.append batch unless batch.empty?
         batch = []
       end
       batch.append Grocery.new row[0], row[1], modulo + 1
     end
-    @groceries.append batch unless batch.empty?
+    @categories.append batch unless batch.empty?
   end
 
   def update_grocery_indices
-    @groceries.each_with_index do |grocery, index|
+    @categories.each_with_index do |grocery, index|
       grocery.index = index + 1
     end
   end
