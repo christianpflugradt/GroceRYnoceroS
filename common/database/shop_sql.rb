@@ -81,6 +81,14 @@ SQL
     end
   end
 
+  def update_category_priority_for_shop(shop_id, category_id, priority)
+    @db.execute <<SQL
+      UPDATE categories_in_shops
+      SET priority = #{priority}, updated_at = datetime('now')
+      WHERE shop_id = #{shop_id} AND category_id = #{category_id}
+SQL
+  end
+
   def fix_category_priorities_for_shop(id)
     updates = []
     sql_result = select_categories_in_shop_by_priority id
