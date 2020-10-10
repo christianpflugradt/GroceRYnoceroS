@@ -3,5 +3,6 @@ CREATE TABLE categories_in_shops (
     shop_id INTEGER NOT NULL,
     category_id INTEGER NOT NULL,
     priority INTEGER NOT NULL,
-    created_at TIMESTAMP NOT NULL
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP
 )

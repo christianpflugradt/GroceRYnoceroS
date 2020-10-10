@@ -1,6 +1,7 @@
 require_relative 'create_shops'
 require_relative 'review_shops'
 require_relative 'add_categories_to_shops'
+require_relative 'remove_categories_from_shops'
 require_relative '../../common/inout'
 
 module ManageShops
@@ -21,7 +22,7 @@ module ManageShops
   (1) create new shops
   (2) add categories to shops
   (3) [tbd] set order of categories for shops
-  (4) [tbd] remove categories from shops
+  (4) remove categories from shops
   (5) view, rename or delete shops
   (6) return to previous menu
 
@@ -40,7 +41,7 @@ MENU
   end
 
   def enter_remove_categories_sub(db)
-    stdout 'not yet implemented :('
+    RemoveCategoriesFromShops.enter self, db
   end
 
   def enter_review_shops_sub(db)

@@ -20,12 +20,34 @@ module SqlShop
     @db.query 'SELECT id, name FROM shops ORDER BY name'
   end
 
+  def select_categories_in_shop_by_priority(id)
+    sql = <<SQL
+      SELECT c.id, c.name FROM categories c 
+      INNER JOIN categories_in_shops cs
+      ON c.id = cs.category_id
+      WHERE cs.shop_id = ?
+      ORDER BY cs.priority
+SQL
+    @db.query sql, id
+  end
+
+  def select_categories_in_shop(id)
+    @db.query <<SQL
+      SELECT id, name FROM categories 
+      WHERE id IN (
+        SELECT category_id FROM categories_in_shops 
+        WHERE shop_id = #{id})
+      ORDER BY name
+SQL
+  end
+
   def select_categories_not_in_shop(id)
     @db.query <<SQL
       SELECT id, name FROM categories 
       WHERE id NOT IN (
         SELECT category_id FROM categories_in_shops 
         WHERE shop_id = #{id})
+      ORDER BY name
 SQL
   end
 
@@ -46,6 +68,35 @@ SQL
         priority += 1
       end
     end
+  end
+
+  def remove_categories_from_shop(shop_id, ids)
+    unless ids.empty?
+      in_clause = ids.map(&:to_s).join(',').to_s
+      @db.execute <<SQL
+        DELETE FROM categories_in_shops
+        WHERE shop_id = #{shop_id} 
+        AND category_id IN (#{in_clause})
+SQL
+    end
+  end
+
+  def fix_category_priorities_for_shop(id)
+    updates = []
+    sql_result = select_categories_in_shop_by_priority id
+    begin
+      sql_result.each_with_index do |row, index|
+        sql = <<SQL
+          UPDATE categories_in_shops
+          SET priority = #{index + 1}, updated_at = datetime('now')
+          WHERE shop_id = #{id} AND category_id = #{row[0]}
+SQL
+        updates.append sql
+      end
+    ensure
+      sql_result.close
+    end
+    updates.each { |sql| @db.execute sql }
   end
 
 end
