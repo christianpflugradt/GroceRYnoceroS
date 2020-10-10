@@ -1,26 +1,26 @@
 require_relative '../common/menu'
 require_relative '../common/inout'
-require_relative 'groceries/manage_groceries'
 require_relative 'categories/manage_categories'
+require_relative 'groceries/manage_groceries'
+require_relative 'lists/manage_lists'
 require_relative 'shops/manage_shops'
 
 module Main
   extend self, Menu
 
-  @main = true
   @subroutines = %i[
-    enter_create_list_sub
-    enter_manage_items_sub
+    enter_manage_lists_sub
+    enter_manage_groceries_sub
     enter_manage_categories_sub
     enter_manage_shops_sub
-    enter_import_shopping_data
+    enter_import_data
   ]
 
   @menu = <<MENU
 
   [Main]
 
-  (1) [tbd] create shopping list
+  (1) manage lists
   (2) manage groceries
   (3) manage categories
   (4) manage shops
@@ -29,11 +29,11 @@ module Main
 
 MENU
 
-  def enter_create_list_sub(db)
-    stdout 'not yet implemented :('
+  def enter_manage_lists_sub(db)
+    ManageLists.enter self, db
   end
 
-  def enter_manage_items_sub(db)
+  def enter_manage_groceries_sub(db)
     ManageGroceries.enter self, db
   end
 
@@ -45,7 +45,7 @@ MENU
     ManageShops.enter self, db
   end
 
-  def enter_import_shopping_data(db)
+  def enter_import_data(db)
     stdout 'not yet implemented :('
   end
 
