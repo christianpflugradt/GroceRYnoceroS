@@ -32,6 +32,10 @@ def print_list_item(index, name)
   puts "  (#{index})\t#{name}".blue
 end
 
+def print_list_subheader(name)
+  puts "\n  #{name}".blue
+end
+
 def print_menu_text(menu_text)
   puts menu_text.cyan
 end

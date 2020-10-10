@@ -2,6 +2,7 @@ require 'sqlite3'
 
 require_relative 'category_sql'
 require_relative 'grocery_sql'
+require_relative 'list_sql'
 require_relative 'shop_sql'
 require_relative 'version_sql'
 
@@ -11,6 +12,7 @@ class Database
   include SqlVersion
   include SqlCategory
   include SqlGrocery
+  include SqlList
   include SqlShop
 
   @db = nil
