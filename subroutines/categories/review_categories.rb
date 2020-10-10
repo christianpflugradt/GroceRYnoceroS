@@ -14,21 +14,6 @@ module ReviewCategories
     end
   end
 
-  @hint_filter = <<HINT_FIL
-
-  -------------------
-  [Review Categories]
-  
-  A maximum of 99 categories will be displayed.
-  You can input a name filter to display only categories that start with the letters in the filter.
-  For example input the letter M to only match categories such as Milk products or Meat.
-  Or input the letters 'Veg' to only match categories such as Vegetables and Vegetarian dishes.
-
-  Just press enter if you don't want to apply a filter.
-  -----------------------------------------------------
-
-HINT_FIL
-
   @hint_delete = <<HINT_DEL
 
   -------------------
@@ -63,27 +48,23 @@ HINT_REN
   @selection = []
 
   def run(db)
-    print_usage_text @hint_filter
-    filter = input 'input a filter'
-    update_selection db, filter
-    delete_categories db, filter unless @selection.empty?
+    update_selection db
+    delete_categories db unless @selection.empty?
     if @selection.empty?
-      print_nack filter.empty? ?
-                     "You don't have any categories in your database." :
-                     'There are no categories matching your filter.'
+      print_nack "You don't have any categories in your database."
     else
       rename_categories db
     end
   end
 
-  def delete_categories(db, filter)
+  def delete_categories(db)
     print_selection
     print_usage_text @hint_delete
     ids = input_ids max_id, 'delete these categories'
     unless ids.empty?
       db.delete_categories(ids.map { |index| find_category_by_index(index).id })
       print_ack "#{ids.length} categories have been deleted."
-      update_selection db, filter
+      update_selection db
     end
   end
 
@@ -116,9 +97,9 @@ HINT_REN
     @selection.each { |category| print_list_item category.index, category.name }
   end
 
-  def update_selection(db, filter)
+  def update_selection(db)
     @selection.clear
-    sql_result = db.select_categories filter
+    sql_result = db.select_all_categories
     begin
       sql_result.each_with_index do |row, index|
         @selection.append Category.new row[0], row[1], index + 1
