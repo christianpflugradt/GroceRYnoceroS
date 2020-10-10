@@ -93,11 +93,11 @@ HINT_CAT
   def select_shop_and_adjust(db)
     shop = find_by_index(input_num('adjust for this shop'), @shops)
     if shop.nil?
-      print_error 'Shop number is invalid.'
+      print_nack 'Shop number is invalid.'
     else
       load_categories db, shop.id
       if @categories.empty?
-        print_error "Shop '#{shop.name}' does not have any categories added."
+        print_nack "Shop '#{shop.name}' does not have any categories added."
       else
         adjust_for_shop db, shop
       end
@@ -110,7 +110,7 @@ HINT_CAT
     loop do
       choice = read_choice
       while !choice.empty? && (pos = extract_positions(choice)).nil?
-        print_error 'Enter a valid command or just press enter to return to previous menu.'
+        print_nack 'Enter a valid command or just press enter to return to previous menu.'
         choice = read_choice
       end
       break if choice.empty?

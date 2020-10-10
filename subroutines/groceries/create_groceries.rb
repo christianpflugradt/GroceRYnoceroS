@@ -24,7 +24,7 @@ HINT
     grocery = input 'input grocery'
     until grocery.empty?
       if db.grocery_exists?(0, grocery)
-        print_error "Grocery '#{grocery}' already exists."
+        print_nack "Grocery '#{grocery}' already exists."
       else
         db.insert_grocery(grocery)
         print_ack "Grocery '#{grocery}' created."

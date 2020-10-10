@@ -23,7 +23,7 @@ HINT
     category = input 'input category'
     until category.empty?
       if db.category_exists?(0, category)
-        print_error "Category '#{category}' already exists."
+        print_nack "Category '#{category}' already exists."
       else
         db.insert_category(category)
         print_ack "Category '#{category}' created."

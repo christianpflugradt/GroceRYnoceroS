@@ -28,15 +28,19 @@ def random_tip
     You should really try to see them all. The best way to do that is to use GroceRYnoceros frequently. =)
   TIP6
   tip7 = <<~TIP7
-    You can create hundreds of Groceries and other stuff.
-    For usability purpose listed items are often limited to 99 entries or less.
+    You can create hundreds of groceries. For usability purpose 
+    listed groceries are usually limited to 99 entries or less.
     Thus it is a good idea to make use of filters to find stuff that is not listed in the first 99 entries.
   TIP7
   tip8 = <<~TIP8
     GroceRYnoceroS stores all data in a Sqlite database file.
     If you are brave you can view and manipulate that file directly using a Sqlite Browser.
   TIP8
-  tips = [tip1, tip2, tip3, tip4, tip5, tip6, tip7, tip8]
+  tip9 = <<~TIP9
+    Categories and Shops are not filtered. It is assumed that you will have far less than 99 of each.
+    If you create hundreds of categories or shops you should reconsider how you want to use GroceRYnoceroS.
+  TIP9
+  tips = [tip1, tip2, tip3, tip4, tip5, tip6, tip7, tip8, tip9]
   "\tTip of the Day:\n\n#{tips[rand(tips.length)]}"
 end
 

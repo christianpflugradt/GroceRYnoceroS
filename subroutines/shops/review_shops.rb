@@ -79,7 +79,7 @@ HINT_REN
     if new_name.empty?
       print_nack "Shop '#{shop.name}' not renamed because of empty input."
     elsif db.shop_exists? shop.id, new_name
-      print_error "Shop '#{shop.name}' not renamed because shop '#{new_name}' already exists."
+      print_nack "Shop '#{shop.name}' not renamed because shop '#{new_name}' already exists."
     else
       db.rename_shop shop.id, new_name
       print_ack "Shop '#{shop.name}' renamed to '#{new_name}'."
