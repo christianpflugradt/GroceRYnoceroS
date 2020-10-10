@@ -1,3 +1,5 @@
+require_relative 'create_single_shop_list'
+
 module ManageLists
   extend self, Menu
 
@@ -12,7 +14,7 @@ module ManageLists
 
   [Manage Lists]
 
-  (1) [tbd] create single shop list
+  (1) create single shop list
   (2) [tbd] create multi shop list
   (3) [tbd] load existing list
   (4) [tbd] delete existing list
@@ -21,7 +23,7 @@ module ManageLists
 MENU
 
   def enter_create_single_list_sub(db)
-    stdout 'not yet implemented :('
+    CreateSingleShopList.enter self, db
   end
 
   def enter_create_multi_list_sub(db)
