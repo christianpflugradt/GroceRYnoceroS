@@ -63,25 +63,23 @@ HINT_REN
   def run(db)
     print_usage_text @hint_filter
     filter = input 'input a filter'
-    update_selection db, filter
-    delete_shops db, filter unless @selection.empty?
+    update_selection db
+    delete_shops db unless @selection.empty?
     if @selection.empty?
-      print_nack filter.empty? ?
-                     "You don't have any shops in your database." :
-                     'There are no shops matching your filter.'
+      print_nack "You don't have any shops in your database."
     else
       rename_shops db
     end
   end
 
-  def delete_shops(db, filter)
+  def delete_shops(db)
     print_selection
     print_usage_text @hint_delete
     ids = input_ids max_id, 'delete these shops'
     unless ids.empty?
       db.delete_shops(ids.map { |index| find_shop_by_index(index).id })
       print_ack "#{ids.length} shops have been deleted."
-      update_selection db, filter
+      update_selection db
     end
   end
 
@@ -114,9 +112,9 @@ HINT_REN
     @selection.each { |shop| print_list_item shop.index, shop.name }
   end
 
-  def update_selection(db, filter)
+  def update_selection(db)
     @selection.clear
-    sql_result = db.select_shops filter
+    sql_result = db.select_all_shops
     begin
       sql_result.each_with_index do |row, index|
         @selection.append Shop.new row[0], row[1], index + 1
@@ -129,5 +127,5 @@ HINT_REN
   def max_id
     @selection.length
   end
-  
+
 end

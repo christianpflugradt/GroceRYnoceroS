@@ -1,6 +1,7 @@
 require_relative 'create_shops'
 require_relative 'review_shops'
 require_relative 'add_categories_to_shops'
+require_relative 'adjust_category_priorities_for_shop'
 require_relative 'remove_categories_from_shops'
 require_relative '../../common/inout'
 
@@ -10,7 +11,7 @@ module ManageShops
   @subroutines = %i[
     enter_create_shops_sub
     enter_add_categories_sub
-    enter_set_category_order_sub
+    enter_adjust_category_priorities_sub
     enter_remove_categories_sub
     enter_review_shops_sub
   ]
@@ -21,7 +22,7 @@ module ManageShops
 
   (1) create new shops
   (2) add categories to shops
-  (3) [tbd] set order of categories for shops
+  (3) adjust category priorities for shops
   (4) remove categories from shops
   (5) view, rename or delete shops
   (6) return to previous menu
@@ -36,8 +37,8 @@ MENU
     AddCategoriesToShops.enter self, db
   end
 
-  def enter_set_category_order_sub(db)
-    stdout 'not yet implemented :('
+  def enter_adjust_category_priorities_sub(db)
+    AdjustCategoryPrioritiesForShop.enter self, db
   end
 
   def enter_remove_categories_sub(db)
