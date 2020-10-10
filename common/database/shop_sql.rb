@@ -13,7 +13,7 @@ module SqlShop
   end
 
   def rename_shop(id, new_name)
-    @db.execute 'UPDATE shops SET name = ? WHERE id = ?', new_name, id
+    @db.execute "UPDATE shops SET name = ?, updated_at = datetime('now') WHERE id = ?", new_name, id
   end
 
   def select_all_shops

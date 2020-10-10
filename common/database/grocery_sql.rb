@@ -13,7 +13,7 @@ module SqlGrocery
   end
 
   def rename_grocery(id, new_name)
-    @db.execute 'UPDATE groceries SET name = ? WHERE id = ?', new_name, id
+    @db.execute "UPDATE groceries SET name = ?, updated_at = datetime('now') WHERE id = ?", new_name, id
   end
 
   def select_groceries(filter)

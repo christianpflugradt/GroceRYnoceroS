@@ -17,7 +17,7 @@ module SqlCategory
   end
 
   def rename_category(id, new_name)
-    @db.execute 'UPDATE categories SET name = ? WHERE id = ?', new_name, id
+    @db.execute "UPDATE categories SET name = ?, updated_at = datetime('now') WHERE id = ?", new_name, id
   end
 
   def select_categories(filter)
