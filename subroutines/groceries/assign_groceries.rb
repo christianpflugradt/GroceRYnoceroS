@@ -80,7 +80,7 @@ HINT_GRO
     success = !@categories.empty?
     if success
       grocery_ids = prepare_assign_groceries category
-      assign_groceries db, category, grocery_ids unless grocery_ids.empty?
+      assign_groceries db, category, grocery_ids
     else
       print_ack 'All groceries have been assigned.'
     end
@@ -96,12 +96,14 @@ HINT_GRO
   end
 
   def assign_groceries(db, category, grocery_ids)
-    db.assign_groceries_to_category(grocery_ids, category.id)
-    print_ack "#{grocery_ids.length} groceries have been assigned to category '#{category.name}'."
-    @categories.delete_if do |grocery|
-      grocery_ids.include? grocery.id
+    unless grocery_ids.empty?
+      db.assign_groceries_to_category(grocery_ids, category.id)
+      @categories.delete_if do |grocery|
+        grocery_ids.include? grocery.id
+      end
+      update_grocery_indices
     end
-    update_grocery_indices
+    print_ack "#{grocery_ids.length} groceries have been assigned to category '#{category.name}'."
   end
 
   def find_by_index(id, list)

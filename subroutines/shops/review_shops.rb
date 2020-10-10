@@ -14,21 +14,6 @@ module ReviewShops
     end
   end
 
-  @hint_filter = <<HINT_FIL
-
-  ------------------
-  [Review Shops]
-  
-  A maximum of 99 shops will be displayed.
-  You can input a name filter to display only shops that start with the letters in the filter.
-  For example input the letter R to only match shops such as Real, Rewe or Rossmann.
-  Or input the letters 'Al' to only match shops such as Aldi or Alnatura.
-
-  Just press enter if you don't want to apply a filter.
-  -----------------------------------------------------
-
-HINT_FIL
-
   @hint_delete = <<HINT_DEL
 
   ------------------
@@ -61,8 +46,6 @@ HINT_REN
   @selection = []
 
   def run(db)
-    print_usage_text @hint_filter
-    filter = input 'input a filter'
     update_selection db
     delete_shops db unless @selection.empty?
     if @selection.empty?

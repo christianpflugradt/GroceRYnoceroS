@@ -26,11 +26,7 @@ module RemoveFromCategory
   -----------------
   [Choose Category]
 
-  Enter the first letters of a category to search for it
-  or just press enter to search for all categories (up to 99 maximum).
-
-  Once search has been executed, suitable categories will be displayed.
-  Next to each category will be a number.
+  Next to each category listed above is a number.
 
   Input the number of the category you want to remove groceries from.
   You can only update one category at a time. Do not enter multiple numbers.
@@ -61,13 +57,9 @@ HINT_GRO
   @groceries = []
 
   def run(db)
-    print_usage_text @hint_shop
-    filter = input 'input a filter'
-    load_categories db, filter
+    load_categories db
     if @categories.empty?
-      print_nack filter.empty? ?
-                     "You don't have any categories in your database." :
-                     'There are no categories matching your filter.'
+      print_nack "You don't have any categories in your database."
     else
       remove_from_category db
     end
@@ -75,6 +67,7 @@ HINT_GRO
 
   def remove_from_category(db)
     print_list @categories
+    print_usage_text @hint_shop
     category = find_by_index(input_num('remove from this category'), @categories)
     if category.nil?
       print_error 'Category number is invalid.'
@@ -115,9 +108,9 @@ HINT_GRO
     stdout ''
   end
 
-  def load_categories(db, filter)
+  def load_categories(db)
     @categories.clear
-    sql_result = db.select_categories filter
+    sql_result = db.select_all_categories
     begin
       sql_result.each_with_index do |row, index|
         @categories.append Category.new row[0], row[1], index + 1
