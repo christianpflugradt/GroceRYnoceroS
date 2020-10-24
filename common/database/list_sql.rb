@@ -22,8 +22,12 @@ SQL
     end
   end
 
+  def get_list_name(id)
+    (@db.get_first_row 'SELECT name FROM lists WHERE id = ?', id)[0]
+  end
+
   def view_shopping_list(id)
-    @db.query 'SELECT grocery_id, grocery, category FROM shopping_list_view WHERE list_id = ?', id
+    @db.query 'SELECT grocery_id, grocery, category_id, category FROM shopping_list_view WHERE list_id = ?', id
   end
 
   def remove_from_list(list_id, grocery_ids)

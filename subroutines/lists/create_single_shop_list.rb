@@ -2,6 +2,8 @@ require 'clipboard'
 
 require_relative '../../common/inout'
 require_relative '../../common/flow'
+require_relative '../../common/export/loader'
+require_relative '../../common/export/exporter'
 
 module CreateSingleShopList
   extend self, Flow
@@ -88,20 +90,6 @@ HINT_GRO
 
 HINT_REM
 
-  @placeholder = 'FILENAMEPLACEHOLDER'
-  @hint_exp = <<HINT_EXP
-
-  -------------
-  [Export List]
-    
-  The list has been exported to the following text file:
-  #{@placeholder}
-
-  Press enter to return to the previous menu.
-  -------------------------------------------------------------
-
-HINT_EXP
-
   @shops = []
   @categories = []
   @groceries = []
@@ -127,7 +115,9 @@ HINT_EXP
       list_id = db.create_single_shop_list shop.id
       process_categories db, list_id
       offer_removals db, list_id
-      export_list list_id
+      Exporter.list_id = list_id
+      Exporter.enter ManageLists, db
+      # export_list list_id
     end
   end
 
@@ -165,27 +155,6 @@ HINT_EXP
       db.remove_from_list list_id, grocery_ids
       print_ack "#{grocery_ids.length} have been removed from the list."
       load_list db, list_id
-    end
-  end
-
-  def export_list(list_id)
-    last_cat = nil
-    shopping_list = []
-    @list_items.each do |item|
-      if last_cat != item.cat
-        shopping_list.append "#{last_cat.nil? ? '' : "\n"}#{item.cat}"
-        last_cat = item.cat
-      end
-      shopping_list.append "#{item.index} - #{item.name}"
-    end
-    filename = "grocerynoceros-shopping-list-#{list_id}.txt"
-    File.open(filename, 'w') do |file|
-      begin
-        file.write shopping_list.join "\n"
-        print_usage_text @hint_exp.sub! @placeholder, (File.realpath filename).to_s
-      ensure
-        file.close
-      end
     end
   end
 
