@@ -1,0 +1,1 @@
+DROP TABLE shops_in_lists

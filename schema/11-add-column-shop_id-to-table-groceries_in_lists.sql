@@ -1,0 +1,1 @@
+ALTER TABLE groceries_in_lists ADD COLUMN shop_id INTEGER

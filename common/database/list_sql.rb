@@ -1,16 +1,14 @@
 module SqlList
 
-  def create_single_shop_list(shop_id)
-    insert_into_lists = <<SQL
-      INSERT INTO lists (name, created_at) VALUES ('single list ' || datetime('now'), datetime('now') )
-SQL
-    insert_into_shops = <<SQL
-      INSERT INTO shops_in_lists (list_id, shop_id, created_at) VALUES (?, ?, datetime('now'))
-SQL
-    @db.execute insert_into_lists
-    list_id = (@db.get_first_row('SELECT MAX(id) FROM lists'))[0]
-    @db.execute insert_into_shops, shop_id, list_id
-    list_id
+  def create_list(name)
+    list_name_sql = name.empty? ? "'SHOPPING LIST ' || datetime('now')" : '?'
+    sql = "INSERT INTO lists (name, created_at) VALUES (#{list_name_sql}, datetime('now'))"
+    if name.empty?
+      @db.execute sql
+    else
+      @db.execute sql, name
+    end
+    (@db.get_first_row('SELECT MAX(id) FROM lists'))[0]
   end
 
   def add_groceries_to_list(list_id, grocery_ids)

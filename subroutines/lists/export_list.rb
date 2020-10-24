@@ -1,12 +1,9 @@
-require_relative 'text_exporter'
-require_relative '../list/models'
-require_relative '../inout'
+require_relative '../../common/export/text_exporter'
+require_relative '../../common/list/models'
+require_relative '../../common/inout'
 
-
-module Exporter
+module ExportList
   extend self, Menu
-
-  attr_writer :list_id
 
   @subroutines = %i[
     export_clipboard
@@ -28,13 +25,13 @@ module Exporter
 
   To return to the previous menu choose the last option.
 
-  (1) [TBD] Clipboard
-  (2) [TBD] Terminal
+  (1) [tbd] Clipboard
+  (2) [tbd] Terminal
   (3) Text File
-  (4) [TBD] HTML File
-  (5) [TBD] PDF File
-  (6) [TBD] XML File
-  (7) [TBD] JSON File
+  (4) [tbd] HTML File
+  (5) [tbd] PDF File
+  (6) [tbd] XML File
+  (7) [tbd] JSON File
   (8) Return to previous menu
 
   ------------------------------------------------------------------------------------
@@ -68,5 +65,6 @@ MENU
   def export_json(db)
     stdout 'not yet implemented :('
   end
+
 
 end

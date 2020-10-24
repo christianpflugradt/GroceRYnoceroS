@@ -18,10 +18,11 @@ class ListSection
 end
 
 class ListSectionItem
-  attr_reader :id, :name
+  attr_reader :id, :name, :index
 
-  def initialize(id, name)
+  def initialize(id, name, index)
     @id = id
     @name = name
+    @index = index
   end
 end

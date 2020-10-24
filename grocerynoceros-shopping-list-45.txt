@@ -1,0 +1,77 @@
+45 - Loredanas Einkaufsliste
+
+
+Backware
+(1) Baguette
+(2) Blätterteig
+(3) Brötchen
+(4) Croissantteig
+(5) Dinkelbrot
+(6) Franzbrötchen
+(7) Knäckebrot
+(8) Pizza
+(9) Roggenbrot
+(10) Schwarzbrot
+(11) Toastbroat
+
+Backzutaten
+(12) Backpulver
+(13) Ei
+(14) Hefe
+(15) Kakao
+(16) Lebensmittelfarbe
+(17) Mandel
+(18) Marzipan
+(19) Mehl
+(20) Nuss
+(21) Streussel
+(22) Vanilleschote
+(23) Vanillezucker
+(24) Zucker
+
+Obst
+(25) Apfel
+(26) Banane
+(27) Birne
+(28) Mandarine
+(29) Mango
+(30) Pflaume
+(31) Physalis
+(32) Weintraube
+(33) Zitrone
+
+Kräuter
+(34) Basilikum
+(35) Dill
+(36) Lauch
+(37) Minze
+(38) Petersilie
+(39) Thymian
+
+Fisch
+(40) Backfisch
+(41) Brathering
+(42) Fischfillet
+(43) Fischstäbchen
+(44) Lachs
+(45) Rollmops
+(46) Thunfisch
+
+Milchprodukte
+(47) Butter
+(48) Camembert
+(49) Creme Fraiche
+(50) Frischkäse
+(51) Frischkäse (körnig)
+(52) Fruchtjoghurt
+(53) Gouda
+(54) Käsesticks
+(55) Milch
+(56) Naturjoghurt
+(57) Ofenkäse
+(58) Parmesan
+(59) Quark
+(60) Raclettekäse
+(61) Schlagsahne
+(62) Schmelzkäse
+(63) Vanillejoghurt

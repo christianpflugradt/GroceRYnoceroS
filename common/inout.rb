@@ -45,7 +45,7 @@ def print_banner_text(banner_string)
 end
 
 def print_usage_text(info_text)
-  puts info_text.yellow
+  puts info_text.yellow unless info_text.nil?
 end
 
 def stdout(*text)

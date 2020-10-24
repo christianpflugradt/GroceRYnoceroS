@@ -11,8 +11,9 @@ def random_tip
     Cyan represents menus, Yellow usage information, Blue selectable items for your input and so on
   TIP2
   tip3 = <<~TIP3
-    Each sub menu is accessible directly from the main menu. There are no sub sub menus. 
+    Each sub menu is accessible directly from the main menu. 
     Each menu has a unique name written above the menu entries.
+    With the exception of the 'Manage Lists' menu there is only one tier of sub menus.
     The last entry in each menu gets you back to the previous menu.
   TIP3
   tip4 = <<~TIP4
