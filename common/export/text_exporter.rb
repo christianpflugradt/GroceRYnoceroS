@@ -22,14 +22,12 @@ module TextExporter
 HINT_EXP
 
   def run(list)
-    index = 1
     lines = []
     lines.append "#{list.id} - #{list.name}\n"
     list.sections.each do |list_section|
       lines.append "\n#{list_section.name}"
       list_section.items.each do |item|
-        lines.append "(#{index}) #{item.name}"
-        index += 1
+        lines.append "(#{item.index}) #{item.name}"
       end
     end
     write(list.id, lines)

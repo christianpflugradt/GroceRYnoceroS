@@ -1,11 +1,8 @@
-require 'clipboard'
-
 require_relative '../../common/inout'
 require_relative '../../common/flow'
-require_relative '../../common/export/exporter'
 require_relative '../../common/list/list_service'
 
-module CreateSingleShopList
+module AddGroceriesByCategories
   extend self, Flow
 
   class ListItem
@@ -45,13 +42,10 @@ module CreateSingleShopList
   [Select Shop for List]
 
   Next to each shop listed above is a number.
-  Input the number of the shop you want to create a list for.
+  Input the number of the shop you want to select groceries from.
 
-  You can only select one shop. If you want to create a list spanning multiple shops
-  please return to the previous menu and choose the respective Flow.
-
-  Just press enter to return to the previous menu without creating a single shop list.
-  ------------------------------------------------------------------------------------
+  Just press enter to return to the previous menu without adding any groceries to the list.
+  -----------------------------------------------------------------------------------------
 
 HINT_SHOP
 
@@ -77,19 +71,7 @@ HINT_SHOP
 
 HINT_GRO
 
-  @hint_rem = <<HINT_REM
-
-  ---------------------------------------
-  [Optionally Remove Groceries from List]
-    
-  Above you see a preview of the shopping list.
-  Next to each grocery on the list is a number.
-
-  If you want to remove any of them from the list, input their numbers separated by comma.
-  ----------------------------------------------------------------------------------------
-
-HINT_REM
-
+  @ids_in_list = []
   @shops = []
   @categories = []
   @groceries = []
@@ -102,22 +84,25 @@ HINT_REM
     if @shops.empty?
       print_nack "You don't have any shops in your database."
     else
+      @ids_in_list = ListService.retrieve_flat(db).map(&:id)
       select_shop_and_create_list db
     end
   end
 
+  def print_list(list)
+    print_list_header
+    list.each { |item| print_list_item item.index, item.name }
+    stdout ''
+  end
+
   def select_shop_and_create_list(db)
-    shop = find_by_index(input_num('create list for this shop'), @shops)
+    shop = find_by_index(input_num('add groceries from this shop'), @shops)
     if shop.nil?
       print_nack 'Shop number is invalid.'
     else
       load_categories_for_shop db, shop.id
-      list_id = db.create_single_shop_list shop.id
+      list_id = ListService.id
       process_categories db, list_id
-      offer_removals db, list_id
-      ListService.list_id = list_id
-      Exporter.enter ManageLists, db
-      # export_list list_id
     end
   end
 
@@ -144,52 +129,8 @@ HINT_REM
     end
   end
 
-  def offer_removals(db, list_id)
-    load_list db, list_id
-    print_shopping_list
-    print_usage_text @hint_rem
-    grocery_ids = (input_ids @list_items.length, 'remove from list')
-                  .map { |index| find_by_index index, @list_items }
-                  .map(&:id)
-    unless grocery_ids.empty?
-      db.remove_from_list list_id, grocery_ids
-      print_ack "#{grocery_ids.length} have been removed from the list."
-      load_list db, list_id
-    end
-  end
-
   def find_by_index(id, list)
     list.find { |category| category.index == id }
-  end
-
-  def print_list(list)
-    print_list_header
-    list.each { |item| print_list_item item.index, item.name }
-    stdout ''
-  end
-
-  def print_shopping_list
-    print_list_header
-    last_cat = nil
-    @list_items.each do |item|
-      if item.cat != last_cat
-        print_list_subheader item.cat
-        last_cat = item.cat
-      end
-      print_list_item item.index, item.name
-    end
-  end
-
-  def load_list(db, list_id)
-    @list_items.clear
-    sql_result = db.view_shopping_list list_id
-    begin
-      sql_result.each_with_index do |row, index|
-        @list_items.append ListItem.new row[0], row[1], row[2], index + 1
-      end
-    ensure
-      sql_result.close
-    end
   end
 
   def load_shops(db)
@@ -228,7 +169,7 @@ HINT_REM
 
   def load_groceries_batched(sql_result)
     batch = []
-    sql_result.each_with_index do |row, index|
+    sql_result.filter { |row| !@ids_in_list.include? row[0] }.each_with_index do |row, index|
       modulo = (index % 50)
       if modulo.zero?
         @groceries.append batch unless batch.empty?
