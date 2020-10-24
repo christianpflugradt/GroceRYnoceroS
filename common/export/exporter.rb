@@ -1,6 +1,5 @@
-require_relative 'models'
-require_relative 'loader'
 require_relative 'text_exporter'
+require_relative '../list/models'
 require_relative '../inout'
 
 
@@ -8,8 +7,6 @@ module Exporter
   extend self, Menu
 
   attr_writer :list_id
-
-  @list_id = nil
 
   @subroutines = %i[
     export_clipboard
@@ -53,7 +50,7 @@ MENU
   end
 
   def export_text(db)
-    TextExporter.run Loader.load_list db, @list_id
+    TextExporter.run ListService.retrieve db
   end
 
   def export_html(db)
