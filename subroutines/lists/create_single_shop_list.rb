@@ -2,8 +2,8 @@ require 'clipboard'
 
 require_relative '../../common/inout'
 require_relative '../../common/flow'
-require_relative '../../common/export/loader'
 require_relative '../../common/export/exporter'
+require_relative '../../common/list/list_service'
 
 module CreateSingleShopList
   extend self, Flow
@@ -115,7 +115,7 @@ HINT_REM
       list_id = db.create_single_shop_list shop.id
       process_categories db, list_id
       offer_removals db, list_id
-      Exporter.list_id = list_id
+      ListService.list_id = list_id
       Exporter.enter ManageLists, db
       # export_list list_id
     end
