@@ -24,10 +24,13 @@ HINT_EXP
   def run(list)
     lines = []
     lines.append "#{list.id} - #{list.name}\n"
-    list.sections.each do |list_section|
-      lines.append "\n#{list_section.name}"
-      list_section.items.each do |item|
-        lines.append "(#{item.index}) #{item.name}"
+    list.shops.each do |list_shop|
+      lines.append "\n[#{list_shop.name}]" if list.shops.length > 1
+      list_shop.sections.each do |list_section|
+        lines.append "\n#{list_section.name}"
+        list_section.items.each do |item|
+          lines.append "(#{item.index}) #{item.name}"
+        end
       end
     end
     write(list.id, lines)
