@@ -4,20 +4,10 @@ require_relative '../../common/flow'
 module RemoveFromCategory
   extend self, Flow
 
-  class Item
-    attr_reader :id, :name, :index
-
-    def initialize(id, name, index)
-      @id = id
-      @name = name
-      @index = index
-    end
+  class Grocery < Flow::Item
   end
 
-  class Grocery < Item
-  end
-
-  class Category < Item
+  class Category < Flow::Item
     attr_writer :index
   end
 
@@ -85,27 +75,17 @@ HINT_GRO
     @groceries.each do |batch|
       print_list batch
       print_usage_text @hint_gro
-      groceries = input_ids(batch.length, "remove from category '#{category.name}'")
+      groceries = input_ids(max_id(batch), "remove from category '#{category.name}'")
                   .map { |index| find_by_index index, batch }.map(&:id)
       db.remove_groceries_from_category category.id, groceries
-      print_ack "#{groceries.length} groceries removed from category '#{category.name}'."
+      print_ack "#{max_id(groceries)} groceries removed from category '#{category.name}'."
     end
-  end
-
-  def find_by_index(id, list)
-    list.find { |item| item.index == id }
   end
 
   def filter_categories(ids)
     @categories = @categories.filter do |item|
       ids.include? item.index
     end
-  end
-
-  def print_list(list)
-    print_list_header
-    list.each { |item| print_list_item item.index, item.name }
-    stdout ''
   end
 
   def load_categories(db)

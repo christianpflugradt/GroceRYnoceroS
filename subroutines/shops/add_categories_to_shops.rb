@@ -4,20 +4,10 @@ require_relative '../../common/flow'
 module AddCategoriesToShops
   extend self, Flow
 
-  class Item
-    attr_reader :id, :name, :index
-
-    def initialize(id, name, index)
-      @id = id
-      @name = name
-      @index = index
-    end
+  class Category < Flow::Item
   end
 
-  class Category < Item
-  end
-
-  class Shop < Item
+  class Shop < Flow::Item
   end
 
   @hint_shop = <<HINT_SHOP
@@ -73,7 +63,7 @@ HINT_CAT
   def add_per_shop(db)
     print_list @shops
     print_usage_text @hint_shop
-    filter_shops input_ids @shops.length, 'use these shops'
+    filter_shops input_ids max_id(@shops), 'use these shops'
     @shops.each do |shop|
       load_categories_for_shop db, shop.id
       add_categories_to_shop db, shop
@@ -92,7 +82,7 @@ HINT_CAT
   def prepare_add_categories(shop)
     print_list @categories
     print_usage_text @hint_cat
-    (input_ids @categories.length, "add to shop '#{shop.name}'")
+    (input_ids max_id(@categories), "add to shop '#{shop.name}'")
       .map { |index| find_by_index index, @categories }
       .map(&:id)
   end
@@ -100,22 +90,13 @@ HINT_CAT
   def add_given_categories(db, shop, category_ids)
     min_priority = db.select_max_category_priority_for_shop(shop.id) + 1
     db.add_categories_to_shop category_ids, shop.id, min_priority
-    print_ack "#{category_ids.length} categories have been added to shop '#{shop.name}'."
-  end
-
-  def find_by_index(id, list)
-    list.find { |category| category.index == id }
+    print_ack "#{max_id(category_ids)} categories have been added to shop '#{shop.name}'."
   end
 
   def filter_shops(ids)
     @shops = @shops.filter do |item|
       ids.include? item.index
     end
-  end
-
-  def print_list(list)
-    print_list_header
-    list.each { |item| print_list_item item.index, item.name }
   end
 
   def load_shops(db)

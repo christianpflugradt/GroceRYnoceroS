@@ -4,14 +4,7 @@ require_relative '../../common/flow'
 module ReviewShops
   extend self, Flow
 
-  class Shop
-    attr_reader :id, :name, :index
-
-    def initialize(id, name, index)
-      @id = id
-      @name = name
-      @index = index
-    end
+  class Shop < Flow::Item
   end
 
   @hint_delete = <<HINT_DEL
@@ -56,25 +49,25 @@ HINT_REN
   end
 
   def delete_shops(db)
-    print_selection
+    print_list @selection
     print_usage_text @hint_delete
-    ids = input_ids max_id, 'delete these shops'
+    ids = input_ids max_id(@selection), 'delete these shops'
     unless ids.empty?
-      db.delete_shops(ids.map { |index| find_shop_by_index(index).id })
+      db.delete_shops(ids.map { |index| find_by_index(index, @selection).id })
       print_ack "#{ids.length} shops have been deleted."
       update_selection db
     end
   end
 
   def rename_shops(db)
-    print_selection
+    print_list @selection
     print_usage_text @hint_rename
-    ids = input_ids max_id, 'rename these shops'
+    ids = input_ids max_id(@selection), 'rename these shops'
     ids.each { |index| rename_shop db, index }
   end
 
   def rename_shop(db, index)
-    shop = find_shop_by_index index
+    shop = find_by_index index, @selection
     new_name = input "enter new name for '#{shop.name}'"
     if new_name.empty?
       print_nack "Shop '#{shop.name}' not renamed because of empty input."
@@ -84,15 +77,6 @@ HINT_REN
       db.rename_shop shop.id, new_name
       print_ack "Shop '#{shop.name}' renamed to '#{new_name}'."
     end
-  end
-
-  def find_shop_by_index(id)
-    @selection.find { |shop| shop.index == id }
-  end
-
-  def print_selection
-    print_list_header
-    @selection.each { |shop| print_list_item shop.index, shop.name }
   end
 
   def update_selection(db)
@@ -105,10 +89,6 @@ HINT_REN
     ensure
       sql_result.close
     end
-  end
-
-  def max_id
-    @selection.length
   end
 
 end

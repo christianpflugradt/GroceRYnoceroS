@@ -1,10 +1,10 @@
-require_relative '../inout'
-require_relative '../flow'
+require_relative '../../../common/inout'
+require_relative '../../../common/flow'
 
 require 'os'
 
 module TextExporter
-  extend self
+  extend self, Flow
 
   @placeholder = 'FILENAMEPLACEHOLDER'
   @hint_exp = <<HINT_EXP
@@ -21,19 +21,33 @@ module TextExporter
 
 HINT_EXP
 
-  def run(list)
+  def run(db)
+    list = ListService.retrieve db
     lines = []
+    add_shopping_list_to_array list, lines
+    write(list.id, lines)
+  end
+
+  def add_shopping_list_to_array(list, lines)
     lines.append "#{list.id} - #{list.name}\n"
-    list.shops.each do |list_shop|
-      lines.append "\n[#{list_shop.name}]" if list.shops.length > 1
-      list_shop.sections.each do |list_section|
-        lines.append "\n#{list_section.name}"
-        list_section.items.each do |item|
-          lines.append "(#{item.index}) #{item.name}"
-        end
+    add_shops_to_array list.shops, lines
+    lines
+  end
+
+  def add_shops_to_array(shops, lines)
+    shops.each do |shop|
+      lines.append "\n[#{shop.name}]" if shops.length > 1
+      add_sections_to_array shop.sections, lines
+    end
+  end
+
+  def add_sections_to_array(sections, lines)
+    sections.each do |section|
+      lines.append "\n#{section.name}"
+      section.items.each do |item|
+        lines.append "(#{item.index}) #{item.name}"
       end
     end
-    write(list.id, lines)
   end
 
   def write(list_id, lines)

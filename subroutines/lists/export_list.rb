@@ -1,4 +1,4 @@
-require_relative '../../common/export/text_exporter'
+require_relative 'exporters/text_exporter'
 require_relative '../../common/list/models'
 require_relative '../../common/inout'
 
@@ -47,7 +47,7 @@ MENU
   end
 
   def export_text(db)
-    TextExporter.run ListService.retrieve db
+    TextExporter.enter self, db
   end
 
   def export_html(db)
@@ -65,6 +65,5 @@ MENU
   def export_json(db)
     stdout 'not yet implemented :('
   end
-
 
 end

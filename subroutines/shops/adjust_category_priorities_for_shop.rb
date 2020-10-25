@@ -4,21 +4,11 @@ require_relative '../../common/flow'
 module AdjustCategoryPrioritiesForShop
   extend self, Flow
 
-  class Item
-    attr_reader :id, :name, :index
-
-    def initialize(id, name, index)
-      @id = id
-      @name = name
-      @index = index
-    end
-  end
-
-  class Category < Item
+  class Category < Flow::Item
     attr_writer :index
   end
 
-  class Shop< Item
+  class Shop < Flow::Item
   end
 
   @hint_shop = <<HINT_SHOP
@@ -154,16 +144,6 @@ HINT_CAT
     @categories.each_with_index do |category, index|
       db.update_category_priority_for_shop shop_id, category.id, index
     end
-  end
-
-  def find_by_index(id, list)
-    list.find { |shop| shop.index == id }
-  end
-
-  def print_list(list)
-    print_list_header
-    list.each { |item| print_list_item item.index, item.name }
-    stdout ''
   end
 
   def load_shops(db)

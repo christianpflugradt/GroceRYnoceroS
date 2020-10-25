@@ -4,14 +4,7 @@ require_relative '../../common/flow'
 module ReviewGroceries
   extend self, Flow
 
-  class Grocery
-    attr_reader :id, :name, :index
-
-    def initialize(id, name, index)
-      @id = id
-      @name = name
-      @index = index
-    end
+  class Grocery < Flow::Item
   end
 
   @hint_filter = <<HINT_FIL
@@ -75,25 +68,25 @@ HINT_REN
   end
 
   def delete_groceries(db, filter)
-    print_selection
+    print_list @selection
     print_usage_text @hint_delete
-    ids = input_ids max_id, 'delete these groceries'
+    ids = input_ids max_id(@selection), 'delete these groceries'
     unless ids.empty?
-      db.delete_groceries(ids.map { |index| find_grocery_by_index(index).id })
+      db.delete_groceries(ids.map { |index| find_by_index(index, @selection).id })
       print_ack "#{ids.length} groceries have been deleted."
       update_selection db, filter
     end
   end
 
   def rename_groceries(db)
-    print_selection
+    print_list @selection
     print_usage_text @hint_rename
-    ids = input_ids max_id, 'rename these groceries'
+    ids = input_ids max_id(@selection), 'rename these groceries'
     ids.each { |index| rename_grocery db, index }
   end
 
   def rename_grocery(db, index)
-    grocery = find_grocery_by_index index
+    grocery = find_by_index index, @selection
     new_name = input "enter new name for '#{grocery.name}'"
     if new_name.empty?
       print_nack "Grocery '#{grocery.name}' not renamed because of empty input."
@@ -103,15 +96,6 @@ HINT_REN
       db.rename_grocery grocery.id, new_name
       print_ack "Grocery '#{grocery.name}' renamed to '#{new_name}'."
     end
-  end
-
-  def find_grocery_by_index(id)
-    @selection.find { |grocery| grocery.index == id }
-  end
-
-  def print_selection
-    print_list_header
-    @selection.each { |grocery| print_list_item grocery.index, grocery.name }
   end
 
   def update_selection(db, filter)
@@ -124,10 +108,6 @@ HINT_REN
     ensure
       sql_result.close
     end
-  end
-
-  def max_id
-    @selection.length
   end
 
 end
