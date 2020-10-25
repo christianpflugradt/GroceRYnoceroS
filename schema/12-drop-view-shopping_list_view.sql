@@ -1,0 +1,1 @@
+DROP VIEW shopping_list_view

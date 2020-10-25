@@ -102,17 +102,17 @@ HINT_GRO
     else
       load_categories_for_shop db, shop.id
       list_id = ListService.id
-      process_categories db, list_id
+      process_categories db, list_id, shop.id
     end
   end
 
-  def process_categories(db, list_id)
+  def process_categories(db, list_id, shop_id)
     @categories.each do |category|
-      process_category db, category, list_id
+      process_category db, category, list_id, shop_id
     end
   end
 
-  def process_category(db, category, list_id)
+  def process_category(db, category, list_id, shop_id)
     load_groceries_for_category db, category.id
     unless @groceries.empty?
       @groceries.each_with_index do |batch, index|
@@ -122,7 +122,7 @@ HINT_GRO
                       .map { |index| find_by_index index, batch }
                       .map(&:id)
         unless grocery_ids.empty?
-          db.add_groceries_to_list list_id, grocery_ids
+          db.add_groceries_to_list list_id, shop_id, grocery_ids
           print_ack "#{grocery_ids.length} groceries have been added to the list."
         end
       end

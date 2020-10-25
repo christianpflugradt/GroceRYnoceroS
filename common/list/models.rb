@@ -1,14 +1,23 @@
 class List
-  attr_reader :id, :name, :sections
+  attr_reader :id, :name, :shops
 
-  def initialize(id, name, sections)
+  def initialize(id, name, shops)
     @id = id
+    @name = name
+    @shops = shops
+  end
+end
+
+class ListShop
+  attr_reader :name, :sections
+
+  def initialize(name, sections)
     @name = name
     @sections = sections
   end
 end
 
-class ListSection
+class ListShopSection
   attr_reader :name, :items
 
   def initialize(name, items)
@@ -17,7 +26,7 @@ class ListSection
   end
 end
 
-class ListSectionItem
+class ListShopSectionItem
   attr_reader :id, :name, :index
 
   def initialize(id, name, index)

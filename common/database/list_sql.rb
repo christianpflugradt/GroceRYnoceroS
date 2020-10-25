@@ -11,11 +11,14 @@ module SqlList
     (@db.get_first_row('SELECT MAX(id) FROM lists'))[0]
   end
 
-  def add_groceries_to_list(list_id, grocery_ids)
+  def add_groceries_to_list(list_id, shop_id, grocery_ids)
     unless grocery_ids.empty?
-      sql = "INSERT INTO groceries_in_lists (list_id, grocery_id, created_at) VALUES (?, ?, datetime('now'))"
+      sql = <<SQL
+        INSERT INTO groceries_in_lists (list_id, shop_id, grocery_id, created_at) 
+        VALUES (?, ?, ?, datetime('now'))
+SQL
       grocery_ids.each do |grocery_id|
-        @db.execute sql, list_id, grocery_id
+        @db.execute sql, list_id, shop_id, grocery_id
       end
     end
   end
@@ -25,7 +28,8 @@ module SqlList
   end
 
   def view_shopping_list(id)
-    @db.query 'SELECT grocery_id, grocery, category_id, category FROM shopping_list_view WHERE list_id = ?', id
+    sql = 'SELECT grocery_id, grocery, category_id, category, shop_id, shop FROM shopping_list_view WHERE list_id = ?'
+    @db.query sql, id
   end
 
   def remove_from_list(list_id, grocery_ids)
