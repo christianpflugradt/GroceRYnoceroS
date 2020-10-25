@@ -21,7 +21,7 @@ module RemoveFromCategory
     attr_writer :index
   end
 
-  @hint_shop = <<HINT_CAT
+  @hint_cat = <<HINT_CAT
 
   -----------------
   [Choose Category]
@@ -34,7 +34,7 @@ module RemoveFromCategory
 
 HINT_CAT
 
-  @hint_cat = <<HINT_GRO
+  @hint_gro = <<HINT_GRO
   -----------------------------------------
   [Remove Groceries from Selected Category]
 
@@ -67,7 +67,7 @@ HINT_GRO
 
   def remove_from_category(db)
     print_list @categories
-    print_usage_text @hint_shop
+    print_usage_text @hint_cat
     category = find_by_index(input_num('remove from this category'), @categories)
     if category.nil?
       print_nack 'Category number is invalid.'
@@ -84,7 +84,7 @@ HINT_GRO
   def remove_from_category_batched(db, category)
     @groceries.each do |batch|
       print_list batch
-      print_usage_text @hint_cat
+      print_usage_text @hint_gro
       groceries = input_ids(batch.length, "remove from category '#{category.name}'")
                   .map { |index| find_by_index index, batch }.map(&:id)
       db.remove_groceries_from_category category.id, groceries
@@ -93,7 +93,7 @@ HINT_GRO
   end
 
   def find_by_index(id, list)
-    list.find { |grocery| grocery.index == id }
+    list.find { |item| item.index == id }
   end
 
   def filter_categories(ids)
