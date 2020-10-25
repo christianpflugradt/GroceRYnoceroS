@@ -16,23 +16,13 @@ module AddGroceriesByCategories
     end
   end
 
-  class Item
-    attr_reader :id, :name, :index
-
-    def initialize(id, name, index)
-      @id = id
-      @name = name
-      @index = index
-    end
+  class Grocery < Flow::Item
   end
 
-  class Grocery < Item
+  class Category < Flow::Item
   end
 
-  class Category < Item
-  end
-
-  class Shop < Item
+  class Shop < Flow::Item
   end
 
 
@@ -89,12 +79,6 @@ HINT_GRO
     end
   end
 
-  def print_list(list)
-    print_list_header
-    list.each { |item| print_list_item item.index, item.name }
-    stdout ''
-  end
-
   def select_shop_and_create_list(db)
     shop = find_by_index(input_num('add groceries from this shop'), @shops)
     if shop.nil?
@@ -127,10 +111,6 @@ HINT_GRO
         end
       end
     end
-  end
-
-  def find_by_index(id, list)
-    list.find { |category| category.index == id }
   end
 
   def load_shops(db)

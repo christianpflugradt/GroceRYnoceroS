@@ -13,4 +13,5 @@ optimized to make the shopping experience as efficient as possible.
  * Ruby 2.7 must be installed
  * Gems must be installed
     * gem install colorize
+    * gem install os
     * gem install sqlite3

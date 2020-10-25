@@ -4,14 +4,7 @@ require_relative '../../common/flow'
 module ReviewCategories
   extend self, Flow
 
-  class Category
-    attr_reader :id, :name, :index
-
-    def initialize(id, name, index)
-      @id = id
-      @name = name
-      @index = index
-    end
+  class Category < Flow::Item
   end
 
   @hint_delete = <<HINT_DEL
@@ -58,25 +51,25 @@ HINT_REN
   end
 
   def delete_categories(db)
-    print_selection
+    print_list @selection
     print_usage_text @hint_delete
-    ids = input_ids max_id, 'delete these categories'
+    ids = input_ids max_id(@selection), 'delete these categories'
     unless ids.empty?
-      db.delete_categories(ids.map { |index| find_category_by_index(index).id })
+      db.delete_categories(ids.map { |index| find_by_index(index, @selection).id })
       print_ack "#{ids.length} categories have been deleted."
       update_selection db
     end
   end
 
   def rename_categories(db)
-    print_selection
+    print_list @selection
     print_usage_text @hint_rename
-    ids = input_ids max_id, 'rename these categories'
+    ids = input_ids max_id(@selection), 'rename these categories'
     ids.each { |index| rename_category db, index }
   end
 
   def rename_category(db, index)
-    category = find_category_by_index index
+    category = find_by_index index, @selection
     new_name = input "enter new name for '#{category.name}'"
     if new_name.empty?
       print_nack "Category '#{category.name}' not renamed because of empty input."
@@ -86,15 +79,6 @@ HINT_REN
       db.rename_category category.id, new_name
       print_ack "Category '#{category.name}' renamed to '#{new_name}'."
     end
-  end
-
-  def find_category_by_index(id)
-    @selection.find { |category| category.index == id }
-  end
-
-  def print_selection
-    print_list_header
-    @selection.each { |category| print_list_item category.index, category.name }
   end
 
   def update_selection(db)
@@ -107,10 +91,6 @@ HINT_REN
     ensure
       sql_result.close
     end
-  end
-
-  def max_id
-    @selection.length
   end
 
 end

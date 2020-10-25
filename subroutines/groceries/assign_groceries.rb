@@ -4,21 +4,11 @@ require_relative '../../common/flow'
 module AssignGroceries
   extend self, Flow
 
-  class Item
-    attr_reader :id, :name, :index
-
-    def initialize(id, name, index)
-      @id = id
-      @name = name
-      @index = index
-    end
-  end
-
-  class Grocery < Item
+  class Grocery < Flow::Item
     attr_writer :index
   end
 
-  class Category < Item
+  class Category < Flow::Item
   end
 
   @hint_cat = <<HINT_CAT
@@ -106,19 +96,10 @@ HINT_GRO
     print_ack "#{grocery_ids.length} groceries have been assigned to category '#{category.name}'."
   end
 
-  def find_by_index(id, list)
-    list.find { |grocery| grocery.index == id }
-  end
-
   def filter_categories(ids)
     @categories = @categories.filter do |item|
       ids.include? item.index
     end
-  end
-
-  def print_list(list)
-    print_list_header
-    list.each { |item| print_list_item item.index, item.name }
   end
 
   def load_categories(db)

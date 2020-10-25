@@ -4,20 +4,10 @@ require_relative '../../common/flow'
 module RemoveCategoriesFromShops
   extend self, Flow
 
-  class Item
-    attr_reader :id, :name, :index
-
-    def initialize(id, name, index)
-      @id = id
-      @name = name
-      @index = index
-    end
+  class Category < Flow::Item
   end
 
-  class Category < Item
-  end
-
-  class Shop < Item
+  class Shop < Flow::Item
   end
 
   @hint_shop = <<HINT_SHOP
@@ -96,19 +86,10 @@ HINT_CAT
     print_ack "#{category_ids.length} categories have been removed from shop '#{shop.name}'."
   end
 
-  def find_by_index(id, list)
-    list.find { |category| category.index == id }
-  end
-
   def filter_shops(ids)
     @shops = @shops.filter do |item|
       ids.include? item.index
     end
-  end
-
-  def print_list(list)
-    print_list_header
-    list.each { |item| print_list_item item.index, item.name }
   end
 
   def load_shops(db)
