@@ -1,9 +1,9 @@
 require_relative '../../../common/inout'
 require_relative '../../../common/flow'
-require_relative 'base_exporter'
+require_relative 'abstract_plain_exporter'
 
 module TerminalExporter
-  extend self, Flow, BaseExporter
+  extend self, Flow, AbstractPlainExporter
 
   @hint_exp = <<HINT_EXP
 
