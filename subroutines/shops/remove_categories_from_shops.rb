@@ -8,6 +8,7 @@ module RemoveCategoriesFromShops
   end
 
   class Shop < Flow::Item
+    attr_writer :index
   end
 
   @hint_shop = <<HINT_SHOP
@@ -56,7 +57,7 @@ HINT_CAT
   def remove_per_shop(db)
     print_list @shops
     print_usage_text @hint_shop
-    @shops = filter_indices @shops, input_ids(@shops.length, 'use these shops')
+    @shops = filter_to_included @shops, input_ids(@shops.length, 'use these shops')
     @shops.each do |shop|
       load_categories_for_shop db, shop.id
       remove_categories_from_shop db, shop

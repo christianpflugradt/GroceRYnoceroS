@@ -1,5 +1,6 @@
 require_relative 'create_list'
 require_relative 'add_groceries_by_categories'
+require_relative 'add_groceries_by_filter'
 require_relative 'remove_groceries'
 require_relative 'export_list'
 require_relative '../../common/list/list_service'
@@ -21,7 +22,7 @@ module ManageLists
 
   (1) create a new list
   (2) add groceries by category
-  (3) [tbd] add groceries by filter
+  (3) add groceries by filter
   (4) remove groceries from list
   (5) export list
   (6) return to previous menu
@@ -46,7 +47,7 @@ MENU
   end
 
   def enter_groceries_filter_sub(db)
-    stdout 'not yet implemented :(' if list_set?
+    AddGroceriesByFilter.enter self, db if list_set?
   end
 
   def enter_groceries_remove_sub(db)

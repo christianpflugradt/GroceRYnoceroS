@@ -114,27 +114,11 @@ HINT_GRO
   end
 
   def load_shops(db)
-    @shops.clear
-    sql_result = db.select_all_shops
-    begin
-      sql_result.each_with_index do |row, index|
-        @shops.append Shop.new row[0], row[1], index + 1
-      end
-    ensure
-      sql_result.close
-    end
+    load_items db.select_all_shops, @shops, Shop
   end
 
   def load_categories_for_shop(db, shop_id)
-    @categories.clear
-    sql_result = db.select_categories_in_shop shop_id
-    begin
-      sql_result.each_with_index do |row, index|
-        @categories.append Category.new row[0], row[1], index + 1
-      end
-    ensure
-      sql_result.close
-    end
+    load_items db.select_categories_in_shop(shop_id), @categories, Category
   end
 
   def load_groceries_for_category(db, id)
