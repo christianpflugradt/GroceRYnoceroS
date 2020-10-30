@@ -1,4 +1,5 @@
 require_relative 'exporters/clipboard_exporter'
+require_relative 'exporters/html_exporter'
 require_relative 'exporters/terminal_exporter'
 require_relative 'exporters/text_exporter'
 require_relative '../../common/list/models'
@@ -30,7 +31,7 @@ module ExportList
   (1) Clipboard
   (2) Terminal
   (3) Text File
-  (4) [tbd] HTML File
+  (4) HTML File
   (5) [tbd] PDF File
   (6) [tbd] XML File
   (7) [tbd] JSON File
@@ -53,7 +54,7 @@ MENU
   end
 
   def export_html(db)
-    stdout 'not yet implemented :('
+    HtmlExporter.enter self, db
   end
 
   def export_pdf(db)
