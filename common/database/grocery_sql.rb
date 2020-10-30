@@ -17,7 +17,7 @@ module SqlGrocery
   end
 
   def select_groceries(filter)
-    @db.query 'SELECT id, name FROM groceries WHERE name LIKE ? ORDER BY name LIMIT 99', "#{filter}%"
+    @db.query 'SELECT id, name FROM groceries WHERE name LIKE ? ORDER BY name LIMIT 99', "%#{filter}%"
   end
 
   def select_groceries_by_category(id)

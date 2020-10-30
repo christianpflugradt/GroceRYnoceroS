@@ -15,7 +15,7 @@ module ReviewGroceries
   A maximum of 99 groceries will be displayed.
   You can input a name filter to display only groceries that start with the letters in the filter.
   For example input the letter M to only match groceries such as Milk or Mushrooms.
-  Or input the letters 'Sal' to only match groceries such as Salad, Salsa or Salmon.
+  Or input the letters 'Bread' to only match groceries such as Breadstick or Gingerbread.
 
   Just press enter if you don't want to apply a filter.
   -----------------------------------------------------
