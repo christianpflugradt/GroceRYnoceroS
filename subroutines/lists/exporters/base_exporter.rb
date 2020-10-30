@@ -26,7 +26,7 @@ module BaseExporter
 
   def add_sections_to_array(sections, lines)
     sections.each do |section|
-      lines.append "\n#{section.name}"
+      lines.append "\n:#{section.name}:"
       section.items.each do |item|
         lines.append "(#{item.index}) #{item.name}"
       end
