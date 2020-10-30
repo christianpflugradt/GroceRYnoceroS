@@ -1,3 +1,5 @@
+require_relative 'exporters/clipboard_exporter'
+require_relative 'exporters/terminal_exporter'
 require_relative 'exporters/text_exporter'
 require_relative '../../common/list/models'
 require_relative '../../common/inout'
@@ -25,8 +27,8 @@ module ExportList
 
   To return to the previous menu choose the last option.
 
-  (1) [tbd] Clipboard
-  (2) [tbd] Terminal
+  (1) Clipboard
+  (2) Terminal
   (3) Text File
   (4) [tbd] HTML File
   (5) [tbd] PDF File
@@ -39,11 +41,11 @@ module ExportList
 MENU
 
   def export_clipboard(db)
-    stdout 'not yet implemented :('
+    ClipboardExporter.enter self, db
   end
 
   def export_terminal(db)
-    stdout 'not yet implemented :('
+    TerminalExporter.enter self, db
   end
 
   def export_text(db)
