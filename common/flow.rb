@@ -39,7 +39,7 @@ module Flow
   # this function is meant to be used for items displayed to the user during a Flow
   # an item consists of id, name and index
   # - id is the primary key for that entity in the database
-  # - index is the position the item is displayed to the user starting with 1
+  # - index is the position the item displayed to the user starting with 1
   # - name is the name of the item displayed to the user
   # the sql_result must return the id in the first column and the name in the second column
   # the clazz must take the id as the first constructor argument, the name second and the index last
