@@ -1,7 +1,6 @@
 require_relative '../../../common/inout'
-require_relative '../../../common/flow'
 
-module BaseExporter
+module AbstractPlainExporter
 
   def run(db)
     list = ListService.retrieve db

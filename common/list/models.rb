@@ -6,6 +6,15 @@ class List
     @name = name
     @shops = shops
   end
+
+  def to_json(*opts)
+    {
+      id: @id,
+      name: @name,
+      shops: @shops
+    }.to_json(*opts)
+  end
+
 end
 
 class ListShop
@@ -15,6 +24,14 @@ class ListShop
     @name = name
     @sections = sections
   end
+
+  def to_json(*opts)
+    {
+      name: @name,
+      sections: @sections
+    }.to_json(*opts)
+  end
+
 end
 
 class ListShopSection
@@ -24,6 +41,14 @@ class ListShopSection
     @name = name
     @items = items
   end
+
+  def to_json(*opts)
+    {
+      name: @name,
+      items: @items
+    }.to_json(*opts)
+  end
+
 end
 
 class ListShopSectionItem
@@ -34,4 +59,13 @@ class ListShopSectionItem
     @name = name
     @index = index
   end
+
+  def to_json(*opts)
+    {
+      id: @id,
+      name: @name,
+      index: @index
+    }.to_json(*opts)
+  end
+
 end
