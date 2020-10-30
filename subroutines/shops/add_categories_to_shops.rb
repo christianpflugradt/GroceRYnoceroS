@@ -8,6 +8,7 @@ module AddCategoriesToShops
   end
 
   class Shop < Flow::Item
+    attr_writer :index
   end
 
   @hint_shop = <<HINT_SHOP
@@ -63,7 +64,7 @@ HINT_CAT
   def add_per_shop(db)
     print_list @shops
     print_usage_text @hint_shop
-    @shops = filter_indices @shops, input_ids(max_id(@shops), 'use these shops')
+    @shops = filter_to_included @shops, input_ids(max_id(@shops), 'use these shops')
     @shops.each do |shop|
       load_categories_for_shop db, shop.id
       add_categories_to_shop db, shop

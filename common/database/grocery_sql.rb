@@ -20,6 +20,18 @@ module SqlGrocery
     @db.query 'SELECT id, name FROM groceries WHERE name LIKE ? ORDER BY name LIMIT 99', "%#{filter}%"
   end
 
+  def select_groceries_for_shop(shop_id, filter)
+    @db.query <<SQL
+      SELECT g.id, g.name FROM groceries g
+      INNER JOIN groceries_in_categories gc ON g.id = gc.grocery_id
+      INNER JOIN categories c ON gc.category_id = c.id
+      INNER JOIN categories_in_shops cs ON c.id = cs.category_id
+      WHERE cs.shop_id = #{shop_id}
+      AND g.name LIKE '%#{filter}%'
+      ORDER BY g.name LIMIT 99
+SQL
+  end
+
   def select_groceries_by_category(id)
     sql = <<SQL
       SELECT g.id, g.name FROM groceries g 

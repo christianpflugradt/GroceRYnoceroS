@@ -109,10 +109,4 @@ HINT_GRO
     @groceries.append batch unless batch.empty?
   end
 
-  def update_grocery_indices
-    @groceries.each_with_index do |grocery, index|
-      grocery.index = index + 1
-    end
-  end
-
 end
