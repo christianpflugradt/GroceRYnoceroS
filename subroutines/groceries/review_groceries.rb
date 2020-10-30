@@ -99,15 +99,7 @@ HINT_REN
   end
 
   def update_selection(db, filter)
-    @selection.clear
-    sql_result = db.select_groceries filter
-    begin
-      sql_result.each_with_index do |row, index|
-        @selection.append Grocery.new row[0], row[1], index + 1
-      end
-    ensure
-      sql_result.close
-    end
+    load_items db.select_groceries(filter), @selection, Grocery
   end
 
 end

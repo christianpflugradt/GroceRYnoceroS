@@ -80,15 +80,7 @@ HINT_REN
   end
 
   def update_selection(db)
-    @selection.clear
-    sql_result = db.select_all_shops
-    begin
-      sql_result.each_with_index do |row, index|
-        @selection.append Shop.new row[0], row[1], index + 1
-      end
-    ensure
-      sql_result.close
-    end
+    load_items db.select_all_shops, @selection, Shop
   end
 
 end
