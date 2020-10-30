@@ -28,4 +28,31 @@ module Flow
     list.length
   end
 
+  def filter_indices(list, indices)
+    list.filter do |item|
+      indices.include? item.index
+    end
+  end
+
+  # converts a 'sql_result' into 'clazz' instances and puts them into a 'list'
+  # === usage and purpose ===
+  # this function is meant to be used for items displayed to the user during a Flow
+  # an item consists of id, name and index
+  # - id is the primary key for that entity in the database
+  # - index is the position the item is displayed to the user starting with 1
+  # - name is the name of the item displayed to the user
+  # the sql_result must return the id in the first column and the name in the second column
+  # the clazz must take the id as the first constructor argument, the name second and the index last
+  # the index value is automatically calculated in this function
+  def load_items(sql_result, list, clazz)
+    list.clear
+    begin
+      sql_result.each_with_index do |row, index|
+        list.append clazz.new row[0], row[1], index + 1
+      end
+    ensure
+      sql_result.close
+    end
+  end
+
 end

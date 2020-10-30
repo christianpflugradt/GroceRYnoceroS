@@ -56,7 +56,7 @@ HINT_CAT
   def remove_per_shop(db)
     print_list @shops
     print_usage_text @hint_shop
-    filter_shops input_ids @shops.length, 'use these shops'
+    @shops = filter_indices @shops, input_ids(@shops.length, 'use these shops')
     @shops.each do |shop|
       load_categories_for_shop db, shop.id
       remove_categories_from_shop db, shop
@@ -86,34 +86,12 @@ HINT_CAT
     print_ack "#{category_ids.length} categories have been removed from shop '#{shop.name}'."
   end
 
-  def filter_shops(ids)
-    @shops = @shops.filter do |item|
-      ids.include? item.index
-    end
-  end
-
   def load_shops(db)
-    @shops.clear
-    sql_result = db.select_all_shops
-    begin
-      sql_result.each_with_index do |row, index|
-        @shops.append Shop.new row[0], row[1], index + 1
-      end
-    ensure
-      sql_result.close
-    end
+    load_items db.select_all_shops, @shops, Shop
   end
 
   def load_categories_for_shop(db, shop_id)
-    @categories.clear
-    sql_result = db.select_categories_in_shop shop_id
-    begin
-      sql_result.each_with_index do |row, index|
-        @categories.append Category.new row[0], row[1], index + 1
-      end
-    ensure
-      sql_result.close
-    end
+    load_items db.select_categories_in_shop(shop_id), @categories, Category
   end
 
 end

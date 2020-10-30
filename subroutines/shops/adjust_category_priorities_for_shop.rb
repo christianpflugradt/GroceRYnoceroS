@@ -147,27 +147,11 @@ HINT_CAT
   end
 
   def load_shops(db)
-    @shops.clear
-    sql_result = db.select_all_shops
-    begin
-      sql_result.each_with_index do |row, index|
-        @shops.append Shop.new row[0], row[1], index + 1
-      end
-    ensure
-      sql_result.close
-    end
+    load_items db.select_all_shops, @shops, Shop
   end
 
   def load_categories(db, id)
-    @categories.clear
-    sql_result = db.select_categories_in_shop_by_priority id
-    begin
-      sql_result.each_with_index do |row, index|
-        @categories.append Category.new row[0], row[1], index + 1
-      end
-    ensure
-      sql_result.close
-    end
+    load_items db.select_categories_in_shop_by_priority(id), @categories, Category
   end
 
 end
