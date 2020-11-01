@@ -81,7 +81,7 @@ HINT_GRO
     filter = input 'input a filter'
     unless filter.empty?
       load_groceries_for_shop db, shop.id, filter
-      @groceries = filter_to_non_included @groceries, @ids_in_list
+      @groceries = filter_to_non_included_ids @groceries, @ids_in_list
       if @groceries.empty?
         print_nack 'There are no groceries matching your filter.'
       else

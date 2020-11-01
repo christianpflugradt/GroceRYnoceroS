@@ -28,15 +28,15 @@ module Flow
     list.length
   end
 
-  def filter_to_included(list, included)
+  def filter_to_included_indices(list, included)
     list = list.filter do |item|
-      included.include? item.id
+      included.include? item.index
     end
     list = update_indices list
     list
   end
 
-  def filter_to_non_included(list, included)
+  def filter_to_non_included_ids(list, included)
     list = list.filter do |item|
       !included.include? item.id
     end

@@ -60,7 +60,7 @@ HINT_GRO
   def assign_per_category(db)
     print_list @categories
     print_usage_text @hint_cat
-    @categories = filter_to_included @categories, input_ids(@categories.length, 'use these categories')
+    @categories = filter_to_included_indices @categories, input_ids(@categories.length, 'use these categories')
     load_groceries db
     @categories.each do |category|
       break unless assign_groceries_if_possible db, category
