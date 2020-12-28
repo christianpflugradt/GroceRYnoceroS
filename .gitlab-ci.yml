@@ -1,0 +1,24 @@
+image: ruby:2.7
+
+stages:
+  - check
+  - release
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+check_syntax:
+  stage: check
+  script:
+    - find . -name "*.rb" -type f -print0 | xargs -0 -n1 ruby -wc
+
+semver:
+  stage: release
+  image: node:13
+  before_script:
+    - npm install @semantic-release/gitlab
+    - cat $SEM_RELEASE_OPTIONS > .releaserc.yml
+  script:
+    - npx semantic-release -t \${version}
+  only:
+    - master
