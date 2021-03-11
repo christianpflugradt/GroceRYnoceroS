@@ -21,4 +21,4 @@ semver:
   script:
     - npx semantic-release -t \${version}
   only:
-    - master
+    - main
