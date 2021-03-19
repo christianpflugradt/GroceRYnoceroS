@@ -1,6 +1,6 @@
 # GroceRYnoceroS
 
-[![pipeline status](https://gitlab.com/christianpflugradt/grocerynoceros/badges/master/pipeline.svg)](https://gitlab.com/christianpflugradt/grocerynoceros/-/commits/master) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![pipeline status](https://gitlab.com/christianpflugradt/grocerynoceros/badges/main/pipeline.svg)](https://gitlab.com/christianpflugradt/grocerynoceros/-/commits/main) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 GrocerRynoceroS is a command line based tool to create grocery lists.
 
